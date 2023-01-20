@@ -396,7 +396,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1247657260}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 2.345171, y: 27.825104, z: -1.1216335}
+  m_LocalPosition: {x: 2.345171, y: 6, z: -1.1216335}
   m_LocalScale: {x: 1, y: 3, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children:
@@ -445,7 +445,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   speed: 12
   gravity: -9.8
-  jumpHeight: 13.41
+  jumpHeight: 2
 --- !u!143 &1247657268
 CharacterController:
   m_ObjectHideFlags: 0
@@ -605,8 +605,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 6a7e73e6e1e7e88499cc22a7343774fb, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  width: 15
-  height: 15
+  width: 100
+  height: 100
   prefab: {fileID: 0}
   visitedPrefab: {fileID: 0}
   platformPrefab: {fileID: 1994551650484379695, guid: 581d696ad44088743b7f02b3a2029bcc, type: 3}
@@ -2667,7 +2667,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!1 &8526479675541261655
 GameObject:
   m_ObjectHideFlags: 0

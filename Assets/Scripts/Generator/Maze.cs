@@ -56,7 +56,6 @@ public class Maze
             else if (next == null)
             {
                 current = route.Pop();
-                Debug.Log("pop cell is: " + current.x + ", " + current.y);
             }
         }
         Debug.Log("Done");
