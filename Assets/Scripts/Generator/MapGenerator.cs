@@ -15,7 +15,7 @@ public class MapGenerator : MonoBehaviour
     private void Start()
     {
         Maze maze = new Maze(width, height);
-        maze.Generate(Method.RecursiveBacktracking);
+        maze.Generate(Method.ModifiedRandomizedPrim);
         left = platformPrefab.transform.Find("Left").gameObject;
         right = platformPrefab.transform.Find("Right").gameObject;
         top = platformPrefab.transform.Find("Top").gameObject;

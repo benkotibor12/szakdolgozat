@@ -6,7 +6,7 @@ public enum Method
 {
     RecursiveBacktracking,
     Kruskal,
-    Prim
+    ModifiedRandomizedPrim
 }
 
 public class Maze
@@ -31,10 +31,69 @@ public class Maze
                 break;
             case Method.Kruskal:
                 break;
-            case Method.Prim:
+            case Method.ModifiedRandomizedPrim:
+                Prim();
                 break;
         }
     }
+
+    public void Prim()
+    {
+        Cell first = board.grid[startX, startY];
+        List<Cell> visited = new List<Cell>();
+        List<Cell> frontiers = new List<Cell>();
+
+        visited.Add(first);
+        frontiers.AddRange(GetFrontiers(first));
+        while (frontiers.Count > 0)
+        {
+            Cell selected = frontiers[UnityEngine.Random.Range(0, frontiers.Count)];
+            selected.visited = true;
+            visited.Add(selected);
+            frontiers.AddRange(GetFrontiers(selected));
+            frontiers.Remove(selected);
+            while (true)
+            {
+                Cell neighbour = GetRandomNeighbour(selected);
+                if (visited.Contains(neighbour))
+                {
+                    RemoveWallBetween(selected, neighbour);
+                    break;
+                }
+            }
+
+        }
+    }
+
+    public void ModifiedRandomizedPrim()
+    {
+        List<Cell> visitedCells = new List<Cell>();
+        Cell current = board.grid[startX, startY];
+        Cell next;
+        current.visited = true;
+        visitedCells.Add(current);
+
+        while (visitedCells.Count > 0)
+        {
+            if (GetAvailableNeighbourCount(current) > 0)
+            {
+                next = GetRandomNeighbour(current);
+                next.visited = true;
+                visitedCells.Add(next);
+                RemoveWallBetween(current, next);
+                if (visitedCells.Count > 0)
+                {
+                    current = visitedCells[UnityEngine.Random.Range(0, visitedCells.Count)];
+                }
+            }
+            else
+            {
+                visitedCells.Remove(current);
+            }
+        }
+        Debug.Log("Done");
+    }
+
 
     public void RecursiveBacktracker()
     {
@@ -59,6 +118,74 @@ public class Maze
             }
         }
         Debug.Log("Done");
+    }
+
+    private List<Cell> GetFrontiers(Cell cell)
+    {
+        List<Cell> frontiers = new();
+        if (cell.x - 1 >= 0)
+        {
+            if (!board.grid[cell.x - 1, cell.y].visited)
+            {
+                frontiers.Add(board.grid[cell.x - 1, cell.y]);
+            }
+        }
+        if (cell.x + 1 < board.width)
+        {
+            if (!board.grid[cell.x + 1, cell.y].visited)
+            {
+                frontiers.Add(board.grid[cell.x + 1, cell.y]);
+            }
+        }
+        if (cell.y - 1 >= 0)
+        {
+            if (!board.grid[cell.x, cell.y - 1].visited)
+            {
+                frontiers.Add(board.grid[cell.x, cell.y - 1]);
+            }
+        }
+        if (cell.y + 1 < height)
+        {
+            if (!board.grid[cell.x, cell.y + 1].visited)
+            {
+                frontiers.Add(board.grid[cell.x, cell.y + 1]);
+            }
+        }
+        return frontiers;
+    }
+
+    private int GetAvailableNeighbourCount(Cell cell)
+    {
+        List<Cell> neighbours = new List<Cell>();
+        if (cell.x - 1 >= 0)
+        {
+            if (!board.grid[cell.x - 1, cell.y].visited)
+            {
+                neighbours.Add(board.grid[cell.x - 1, cell.y]);
+            }
+        }
+        if (cell.x + 1 < board.width)
+        {
+            if (!board.grid[cell.x + 1, cell.y].visited)
+            {
+                neighbours.Add(board.grid[cell.x + 1, cell.y]);
+            }
+        }
+        if (cell.y - 1 >= 0)
+        {
+            if (!board.grid[cell.x, cell.y - 1].visited)
+            {
+                neighbours.Add(board.grid[cell.x, cell.y - 1]);
+            }
+        }
+        if (cell.y + 1 < height)
+        {
+            if (!board.grid[cell.x, cell.y + 1].visited)
+            {
+                neighbours.Add(board.grid[cell.x, cell.y + 1]);
+            }
+        }
+        return neighbours.Count;
     }
 
     public void RemoveWallBetween(Cell a, Cell b)
@@ -150,5 +277,81 @@ public class Maze
             }
         }
         return neighbours.Count > 0 ? neighbours[UnityEngine.Random.Range(0, neighbours.Count)] : null;
+    }
+
+    public Vector2 RandomDirection()
+    {
+        Vector2 direction = Vector2.zero;
+        int random = UnityEngine.Random.Range(0, 4);
+
+        switch (random)
+        {
+            case 0:
+                direction = Vector2.up;
+                break;
+            case 1:
+                direction = Vector2.down;
+                break;
+            case 2:
+                direction = Vector2.left;
+                break;
+            case 3:
+                direction = Vector2.right;
+                break;
+        }
+        Debug.Log(direction);
+        return direction;
+    }
+
+    public Cell GetRandomNeighbour(Cell cell)
+    {
+        Vector2 direction = RandomDirection();
+        Cell neighbour = new(0, 0);
+        if (direction == Vector2.up)
+        {
+            if (cell.y + 1 < board.height)
+            {
+                return board.grid[cell.x, cell.y + 1];
+            }
+            else
+            {
+                return GetRandomNeighbour(cell);
+            }
+        }
+        if (direction == Vector2.down)
+        {
+            if (cell.y - 1 >= 0)
+            {
+                return board.grid[cell.x, cell.y - 1];
+            }
+            else
+            {
+                return GetRandomNeighbour(cell);
+            }
+        }
+        if (direction == Vector2.left)
+        {
+            if (cell.x - 1 >= 0)
+            {
+                return board.grid[cell.x - 1, cell.y];
+            }
+            else
+            {
+                return GetRandomNeighbour(cell);
+            }
+        }
+        if (direction == Vector2.right)
+        {
+            if (cell.x + 1 < board.width)
+            {
+                return board.grid[cell.x + 1, cell.y];
+            }
+            else
+            {
+                return GetRandomNeighbour(cell);
+            }
+        }
+        Debug.LogError("GetRandomNeighbour: oof" + direction);
+        return neighbour;
     }
 }
