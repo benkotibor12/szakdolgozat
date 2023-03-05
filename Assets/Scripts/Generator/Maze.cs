@@ -1,5 +1,6 @@
 using System;
 using System.Collections.Generic;
+using System.Linq;
 using UnityEngine;
 
 public enum Method
@@ -39,28 +40,38 @@ public class Maze
 
     public void Prim()
     {
+        HashSet<Cell> frontiers = new HashSet<Cell>();
+        List<Cell> visitedCells = new List<Cell>();
         Cell first = board.grid[startX, startY];
-        List<Cell> visited = new List<Cell>();
-        List<Cell> frontiers = new List<Cell>();
+        Cell frontier;
+        frontiers.Add(first);
+        Cell selected = first;
 
-        visited.Add(first);
-        frontiers.AddRange(GetFrontiers(first));
         while (frontiers.Count > 0)
         {
-            Cell selected = frontiers[UnityEngine.Random.Range(0, frontiers.Count)];
-            selected.visited = true;
-            visited.Add(selected);
-            frontiers.AddRange(GetFrontiers(selected));
             frontiers.Remove(selected);
-            while (true)
+            selected.visited = true;
+            visitedCells.Add(selected);
+            if (visitedCells.Count == board.width * board.height)
             {
-                Cell neighbour = GetRandomNeighbour(selected);
-                if (visited.Contains(neighbour))
-                {
-                    RemoveWallBetween(selected, neighbour);
-                    break;
-                }
+                break;
             }
+            Debug.Log("S: " + selected.x + ", " + selected.y);
+            if (GetFrontiers(selected) != null)
+            {
+                frontiers.UnionWith(GetFrontiers(selected));
+            }
+            Cell[] frotiersArray = frontiers.ToArray();
+            frontier = frotiersArray[UnityEngine.Random.Range(0, frontiers.Count)];
+            Debug.Log(frontier.visited);
+
+
+
+            Cell neighbour = GetRandomVisitedNeighbour(frontier);
+            RemoveWallBetween(frontier, neighbour);
+            selected = frontier;
+            Debug.Log("F: " + selected.x + ", " + selected.y);
+
 
         }
     }
@@ -144,14 +155,15 @@ public class Maze
                 frontiers.Add(board.grid[cell.x, cell.y - 1]);
             }
         }
-        if (cell.y + 1 < height)
+        if (cell.y + 1 < board.height)
         {
             if (!board.grid[cell.x, cell.y + 1].visited)
             {
                 frontiers.Add(board.grid[cell.x, cell.y + 1]);
             }
         }
-        return frontiers;
+
+        return frontiers.Count > 0 ? frontiers : null;
     }
 
     private int GetAvailableNeighbourCount(Cell cell)
@@ -212,6 +224,10 @@ public class Maze
                 a.walls.top = false;
                 b.walls.bottom = false;
             }
+        }
+        else if (a == b)
+        {
+            Debug.LogWarning("Same cell!");
         }
         else
         {
@@ -299,8 +315,60 @@ public class Maze
                 direction = Vector2.right;
                 break;
         }
-        Debug.Log(direction);
+
         return direction;
+    }
+
+    public Cell GetRandomVisitedNeighbour(Cell cell)
+    {
+        Vector2 direction = RandomDirection();
+        Cell neighbour = new(0, 0);
+        if (direction == Vector2.up)
+        {
+            if (cell.y + 1 < board.height && board.grid[cell.x, cell.y + 1].visited)
+            {
+                return board.grid[cell.x, cell.y + 1];
+            }
+            else
+            {
+                return GetRandomNeighbour(cell);
+            }
+        }
+        if (direction == Vector2.down)
+        {
+            if (cell.y - 1 >= 0 && board.grid[cell.x, cell.y - 1].visited)
+            {
+                return board.grid[cell.x, cell.y - 1];
+            }
+            else
+            {
+                return GetRandomNeighbour(cell);
+            }
+        }
+        if (direction == Vector2.left)
+        {
+            if (cell.x - 1 >= 0 && board.grid[cell.x - 1, cell.y].visited)
+            {
+                return board.grid[cell.x - 1, cell.y];
+            }
+            else
+            {
+                return GetRandomNeighbour(cell);
+            }
+        }
+        if (direction == Vector2.right)
+        {
+            if (cell.x + 1 < board.width && board.grid[cell.x + 1, cell.y].visited)
+            {
+                return board.grid[cell.x + 1, cell.y];
+            }
+            else
+            {
+                return GetRandomNeighbour(cell);
+            }
+        }
+        Debug.LogError("GetRandomVisitedNeighbour: oof" + direction);
+        return neighbour;
     }
 
     public Cell GetRandomNeighbour(Cell cell)
