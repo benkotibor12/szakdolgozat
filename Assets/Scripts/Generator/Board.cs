@@ -16,7 +16,7 @@ public class Board
             {
                 // Calculate label for this cell
                 string label = "";
-                int index = i;
+                int index = i * height + j;
                 while (true)
                 {
                     label = alphabet[index % 26] + label;

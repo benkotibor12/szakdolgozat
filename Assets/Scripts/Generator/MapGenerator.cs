@@ -3,9 +3,8 @@ using UnityEngine;
 public class MapGenerator : MonoBehaviour
 {
     public int width, height = 10;
+    private Maze maze;
     public Method method;
-    public GameObject prefab;
-    public GameObject visitedPrefab;
     public GameObject platformPrefab;
     private PlatformUI platformUI;
 
@@ -14,11 +13,15 @@ public class MapGenerator : MonoBehaviour
     GameObject top;
     GameObject bottom;
     GameObject floor;
-    private void Start()
+
+    private void Awake()
     {
-        Maze maze = new Maze(width, height);
+        maze = new(width, height);
         maze.Generate(method);
         platformUI = platformPrefab.GetComponent<PlatformUI>();
+    }
+    private void Start()
+    {
         left = platformPrefab.transform.Find("Left").gameObject;
         right = platformPrefab.transform.Find("Right").gameObject;
         top = platformPrefab.transform.Find("Top").gameObject;
@@ -46,7 +49,7 @@ public class MapGenerator : MonoBehaviour
                 {
                     bottom.SetActive(false);
                 }
-                platformUI.UpdateText(maze.board.grid[i, j].label.ToString());
+                platformUI.UpdateText(maze.board.grid[i, j].label);
                 Instantiate(platformPrefab, new Vector3(i * offset, 0, j * offset), platformPrefab.transform.rotation);
                 ResetPrefab(platformPrefab);
             }
