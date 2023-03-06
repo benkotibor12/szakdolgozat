@@ -41,9 +41,6 @@ public class Cell
 
     public void SetIndex(int index)
     {
-        if (this.index == -1)
-        {
-            this.index = index;
-        }
+        this.index = index;
     }
 }

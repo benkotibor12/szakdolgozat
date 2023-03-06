@@ -14,7 +14,6 @@ public class Board
         {
             for (int j = 0; j < height; j++)
             {
-                // Calculate label for this cell
                 string label = "";
                 int index = i * height + j;
                 while (true)
@@ -27,6 +26,7 @@ public class Board
 
                 Cell cell = new Cell(i, j);
                 cell.label = label;
+                cell.SetIndex(i * height + j);
                 grid[i, j] = cell;
             }
         }

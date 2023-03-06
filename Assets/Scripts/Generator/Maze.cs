@@ -41,7 +41,27 @@ public class Maze
 
     private void Kruskal()
     {
-        throw new NotImplementedException();
+        int wallsDown = 0;
+
+        Cell current;
+        Cell neighbour;
+        DisjointSet disjointSet = new DisjointSet(board.height * board.width);
+
+        while (wallsDown < board.height * board.width - 1)
+        {
+            current = board.grid[UnityEngine.Random.Range(0, board.width), UnityEngine.Random.Range(0, board.height)];
+            neighbour = GetNeigbourWithWalls(current);
+            if (neighbour != null)
+            {
+                if (disjointSet.Find(current.index) != disjointSet.Find(neighbour.index))
+                {
+                    disjointSet.Union(current.index, neighbour.index);
+                    neighbour.label = current.label;
+                    RemoveWallBetween(current, neighbour);
+                    wallsDown += 1;
+                }
+            }
+        }
     }
 
     public void Prim()
@@ -138,38 +158,45 @@ public class Maze
         return frontiers.Count > 0 ? frontiers : null;
     }
 
-    private int GetAvailableNeighbourCount(Cell cell)
+    public bool HasWallBetween(Cell a, Cell b)
     {
-        List<Cell> neighbours = new List<Cell>();
-        if (cell.x - 1 >= 0)
+        if (Math.Abs(a.x - b.x) == 1 ^ Math.Abs(a.y - b.y) == 1)
         {
-            if (!board.grid[cell.x - 1, cell.y].visited)
+            if (a.x > b.x)
             {
-                neighbours.Add(board.grid[cell.x - 1, cell.y]);
+                if (a.walls.left && b.walls.right)
+                {
+                    return true;
+                }
+            }
+            if (a.x < b.x)
+            {
+                if (a.walls.right && b.walls.left)
+                {
+                    return true;
+                }
+            }
+            if (a.y > b.y)
+            {
+                if (a.walls.bottom && b.walls.top)
+                {
+                    return true;
+                }
+            }
+            if (a.y < b.y)
+            {
+                if (a.walls.top && b.walls.bottom)
+                {
+                    return true;
+                }
             }
         }
-        if (cell.x + 1 < board.width)
+        else if (a == b)
         {
-            if (!board.grid[cell.x + 1, cell.y].visited)
-            {
-                neighbours.Add(board.grid[cell.x + 1, cell.y]);
-            }
+            Debug.LogWarning("Same cell!");
         }
-        if (cell.y - 1 >= 0)
-        {
-            if (!board.grid[cell.x, cell.y - 1].visited)
-            {
-                neighbours.Add(board.grid[cell.x, cell.y - 1]);
-            }
-        }
-        if (cell.y + 1 < height)
-        {
-            if (!board.grid[cell.x, cell.y + 1].visited)
-            {
-                neighbours.Add(board.grid[cell.x, cell.y + 1]);
-            }
-        }
-        return neighbours.Count;
+
+        return false;
     }
 
     public void RemoveWallBetween(Cell a, Cell b)
@@ -231,6 +258,26 @@ public class Maze
             a.walls.top = false;
             b.walls.bottom = false;
         }
+    }
+
+    public Cell GetNeigbourWithWalls(Cell cell)
+    {
+        List<Cell> neighbours = new List<Cell>();
+        List<Cell> neighboursWithWalls = new List<Cell>();
+        if (cell.x - 1 >= 0) neighbours.Add(board.grid[cell.x - 1, cell.y]);
+        if (cell.x + 1 < board.width) neighbours.Add(board.grid[cell.x + 1, cell.y]);
+        if (cell.y - 1 >= 0) neighbours.Add(board.grid[cell.x, cell.y - 1]);
+        if (cell.y + 1 < height) neighbours.Add(board.grid[cell.x, cell.y + 1]);
+
+        foreach (Cell neighbour in neighbours)
+        {
+            if (HasWallBetween(cell, neighbour))
+            {
+                neighboursWithWalls.Add(neighbour);
+            }
+        }
+
+        return neighboursWithWalls.Count > 0 ? neighboursWithWalls[UnityEngine.Random.Range(0, neighboursWithWalls.Count)] : null;
     }
 
     public Cell GetNeigbour(Cell cell, bool isVisited = false)

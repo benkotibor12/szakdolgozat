@@ -18,17 +18,17 @@ public class MapGenerator : MonoBehaviour
     {
         maze = new(width, height);
         maze.Generate(method);
-        platformUI = platformPrefab.GetComponent<PlatformUI>();
     }
     private void Start()
     {
+        platformUI = platformPrefab.GetComponent<PlatformUI>();
         left = platformPrefab.transform.Find("Left").gameObject;
         right = platformPrefab.transform.Find("Right").gameObject;
         top = platformPrefab.transform.Find("Top").gameObject;
         bottom = platformPrefab.transform.Find("Bottom").gameObject;
         floor = platformPrefab.transform.Find("Floor").gameObject;
         float offset = floor.transform.localScale.x * platformPrefab.transform.localScale.x;
-        
+
         for (int i = 0; i < width; i++)
         {
             for (int j = 0; j < height; j++)
@@ -49,7 +49,7 @@ public class MapGenerator : MonoBehaviour
                 {
                     bottom.SetActive(false);
                 }
-                platformUI.UpdateText(maze.board.grid[i, j].label);
+                platformUI.UpdateText(maze.board.grid[i, j].index.ToString());
                 Instantiate(platformPrefab, new Vector3(i * offset, 0, j * offset), platformPrefab.transform.rotation);
                 ResetPrefab(platformPrefab);
             }
