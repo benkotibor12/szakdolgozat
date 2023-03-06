@@ -12,6 +12,7 @@ public class Cell
     public bool visited;
     public Walls walls;
     public int index;
+    public string label;
 
     public Cell(int x, int y)
     {
@@ -23,6 +24,7 @@ public class Cell
         walls.top = true;
         walls.bottom = true;
         index = -1;
+        label = "N/A";
     }
 
     public int GetActiveWalls()

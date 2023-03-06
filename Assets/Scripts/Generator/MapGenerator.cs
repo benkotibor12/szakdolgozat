@@ -46,7 +46,7 @@ public class MapGenerator : MonoBehaviour
                 {
                     bottom.SetActive(false);
                 }
-                platformUI.UpdateText(maze.board.grid[i, j].index.ToString());
+                platformUI.UpdateText(maze.board.grid[i, j].label.ToString());
                 Instantiate(platformPrefab, new Vector3(i * offset, 0, j * offset), platformPrefab.transform.rotation);
                 ResetPrefab(platformPrefab);
             }
