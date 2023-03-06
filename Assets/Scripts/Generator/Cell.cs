@@ -11,6 +11,7 @@ public class Cell
     public int x, y;
     public bool visited;
     public Walls walls;
+    public int index;
 
     public Cell(int x, int y)
     {
@@ -21,6 +22,7 @@ public class Cell
         walls.right = true;
         walls.top = true;
         walls.bottom = true;
+        index = -1;
     }
 
     public int GetActiveWalls()
@@ -33,5 +35,13 @@ public class Cell
         if (walls.bottom) count++;
 
         return count;
+    }
+
+    public void SetIndex(int index)
+    {
+        if (this.index == -1)
+        {
+            this.index = index;
+        }
     }
 }

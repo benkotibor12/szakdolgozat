@@ -7,7 +7,7 @@ public enum Method
 {
     RecursiveBacktracking,
     Kruskal,
-    ModifiedRandomizedPrim
+    Prim
 }
 
 public class Maze
@@ -31,11 +31,17 @@ public class Maze
                 RecursiveBacktracker();
                 break;
             case Method.Kruskal:
+                Kruskal();
                 break;
-            case Method.ModifiedRandomizedPrim:
+            case Method.Prim:
                 Prim();
                 break;
         }
+    }
+
+    private void Kruskal()
+    {
+        throw new NotImplementedException();
     }
 
     public void Prim()
@@ -46,9 +52,11 @@ public class Maze
         Cell frontier;
         frontiers.Add(first);
         Cell selected = first;
-
+        int counter = 0;
         while (frontiers.Count > 0)
         {
+            counter++;
+            selected.SetIndex(counter);
             frontiers.Remove(selected);
             selected.visited = true;
             visitedCells.Add(selected);
@@ -56,55 +64,17 @@ public class Maze
             {
                 break;
             }
-            Debug.Log("S: " + selected.x + ", " + selected.y);
             if (GetFrontiers(selected) != null)
             {
                 frontiers.UnionWith(GetFrontiers(selected));
             }
             Cell[] frotiersArray = frontiers.ToArray();
             frontier = frotiersArray[UnityEngine.Random.Range(0, frontiers.Count)];
-            Debug.Log(frontier.visited);
-
-
-
-            Cell neighbour = GetRandomVisitedNeighbour(frontier);
+            Cell neighbour = GetNeigbour(frontier, true);
             RemoveWallBetween(frontier, neighbour);
             selected = frontier;
-            Debug.Log("F: " + selected.x + ", " + selected.y);
-
-
         }
     }
-
-    public void ModifiedRandomizedPrim()
-    {
-        List<Cell> visitedCells = new List<Cell>();
-        Cell current = board.grid[startX, startY];
-        Cell next;
-        current.visited = true;
-        visitedCells.Add(current);
-
-        while (visitedCells.Count > 0)
-        {
-            if (GetAvailableNeighbourCount(current) > 0)
-            {
-                next = GetRandomNeighbour(current);
-                next.visited = true;
-                visitedCells.Add(next);
-                RemoveWallBetween(current, next);
-                if (visitedCells.Count > 0)
-                {
-                    current = visitedCells[UnityEngine.Random.Range(0, visitedCells.Count)];
-                }
-            }
-            else
-            {
-                visitedCells.Remove(current);
-            }
-        }
-        Debug.Log("Done");
-    }
-
 
     public void RecursiveBacktracker()
     {
@@ -112,13 +82,16 @@ public class Maze
         Cell next;
         Stack<Cell> route = new Stack<Cell>();
         route.Push(current);
+        int counter = 0;
         while (route.Count > 0)
         {
             current.visited = true;
-            next = GetAvailableNeighbour(current);
+            next = GetNeigbour(current, false);
             if (next != null)
             {
                 next.visited = true;
+                counter++;
+                current.SetIndex(counter);
                 RemoveWallBetween(current, next);
                 route.Push(next);
                 current = next;
@@ -128,7 +101,6 @@ public class Maze
                 current = route.Pop();
             }
         }
-        Debug.Log("Done");
     }
 
     private List<Cell> GetFrontiers(Cell cell)
@@ -261,165 +233,78 @@ public class Maze
         }
     }
 
-    public Cell GetAvailableNeighbour(Cell cell)
+    public Cell GetNeigbour(Cell cell, bool isVisited = false)
     {
         List<Cell> neighbours = new List<Cell>();
         if (cell.x - 1 >= 0)
         {
-            if (!board.grid[cell.x - 1, cell.y].visited)
+            if (isVisited)
             {
-                neighbours.Add(board.grid[cell.x - 1, cell.y]);
+                if (board.grid[cell.x - 1, cell.y].visited)
+                {
+                    neighbours.Add(board.grid[cell.x - 1, cell.y]);
+                }
+            }
+            else
+            {
+                if (!board.grid[cell.x - 1, cell.y].visited)
+                {
+                    neighbours.Add(board.grid[cell.x - 1, cell.y]);
+                }
             }
         }
         if (cell.x + 1 < board.width)
         {
-            if (!board.grid[cell.x + 1, cell.y].visited)
+            if (isVisited)
             {
-                neighbours.Add(board.grid[cell.x + 1, cell.y]);
+                if (board.grid[cell.x + 1, cell.y].visited)
+                {
+                    neighbours.Add(board.grid[cell.x + 1, cell.y]);
+                }
+            }
+            else
+            {
+                if (!board.grid[cell.x + 1, cell.y].visited)
+                {
+                    neighbours.Add(board.grid[cell.x + 1, cell.y]);
+                }
             }
         }
         if (cell.y - 1 >= 0)
         {
-            if (!board.grid[cell.x, cell.y - 1].visited)
+            if (isVisited)
             {
-                neighbours.Add(board.grid[cell.x, cell.y - 1]);
+                if (board.grid[cell.x, cell.y - 1].visited)
+                {
+                    neighbours.Add(board.grid[cell.x, cell.y - 1]);
+                }
+            }
+            else
+            {
+                if (!board.grid[cell.x, cell.y - 1].visited)
+                {
+                    neighbours.Add(board.grid[cell.x, cell.y - 1]);
+                }
             }
         }
         if (cell.y + 1 < height)
         {
-            if (!board.grid[cell.x, cell.y + 1].visited)
+            if (isVisited)
             {
-                neighbours.Add(board.grid[cell.x, cell.y + 1]);
+                if (board.grid[cell.x, cell.y + 1].visited)
+                {
+                    neighbours.Add(board.grid[cell.x, cell.y + 1]);
+                }
+            }
+            else
+            {
+                if (!board.grid[cell.x, cell.y + 1].visited)
+                {
+                    neighbours.Add(board.grid[cell.x, cell.y + 1]);
+                }
             }
         }
+
         return neighbours.Count > 0 ? neighbours[UnityEngine.Random.Range(0, neighbours.Count)] : null;
-    }
-
-    public Vector2 RandomDirection()
-    {
-        Vector2 direction = Vector2.zero;
-        int random = UnityEngine.Random.Range(0, 4);
-
-        switch (random)
-        {
-            case 0:
-                direction = Vector2.up;
-                break;
-            case 1:
-                direction = Vector2.down;
-                break;
-            case 2:
-                direction = Vector2.left;
-                break;
-            case 3:
-                direction = Vector2.right;
-                break;
-        }
-
-        return direction;
-    }
-
-    public Cell GetRandomVisitedNeighbour(Cell cell)
-    {
-        Vector2 direction = RandomDirection();
-        Cell neighbour = new(0, 0);
-        if (direction == Vector2.up)
-        {
-            if (cell.y + 1 < board.height && board.grid[cell.x, cell.y + 1].visited)
-            {
-                return board.grid[cell.x, cell.y + 1];
-            }
-            else
-            {
-                return GetRandomNeighbour(cell);
-            }
-        }
-        if (direction == Vector2.down)
-        {
-            if (cell.y - 1 >= 0 && board.grid[cell.x, cell.y - 1].visited)
-            {
-                return board.grid[cell.x, cell.y - 1];
-            }
-            else
-            {
-                return GetRandomNeighbour(cell);
-            }
-        }
-        if (direction == Vector2.left)
-        {
-            if (cell.x - 1 >= 0 && board.grid[cell.x - 1, cell.y].visited)
-            {
-                return board.grid[cell.x - 1, cell.y];
-            }
-            else
-            {
-                return GetRandomNeighbour(cell);
-            }
-        }
-        if (direction == Vector2.right)
-        {
-            if (cell.x + 1 < board.width && board.grid[cell.x + 1, cell.y].visited)
-            {
-                return board.grid[cell.x + 1, cell.y];
-            }
-            else
-            {
-                return GetRandomNeighbour(cell);
-            }
-        }
-        Debug.LogError("GetRandomVisitedNeighbour: oof" + direction);
-        return neighbour;
-    }
-
-    public Cell GetRandomNeighbour(Cell cell)
-    {
-        Vector2 direction = RandomDirection();
-        Cell neighbour = new(0, 0);
-        if (direction == Vector2.up)
-        {
-            if (cell.y + 1 < board.height)
-            {
-                return board.grid[cell.x, cell.y + 1];
-            }
-            else
-            {
-                return GetRandomNeighbour(cell);
-            }
-        }
-        if (direction == Vector2.down)
-        {
-            if (cell.y - 1 >= 0)
-            {
-                return board.grid[cell.x, cell.y - 1];
-            }
-            else
-            {
-                return GetRandomNeighbour(cell);
-            }
-        }
-        if (direction == Vector2.left)
-        {
-            if (cell.x - 1 >= 0)
-            {
-                return board.grid[cell.x - 1, cell.y];
-            }
-            else
-            {
-                return GetRandomNeighbour(cell);
-            }
-        }
-        if (direction == Vector2.right)
-        {
-            if (cell.x + 1 < board.width)
-            {
-                return board.grid[cell.x + 1, cell.y];
-            }
-            else
-            {
-                return GetRandomNeighbour(cell);
-            }
-        }
-        Debug.LogError("GetRandomNeighbour: oof" + direction);
-        return neighbour;
     }
 }
