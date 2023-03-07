@@ -508,9 +508,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 6a7e73e6e1e7e88499cc22a7343774fb, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  width: 15
-  height: 15
-  method: 2
+  width: 11
+  height: 11
+  method: 3
   platformPrefab: {fileID: 1994551650484379695, guid: 581d696ad44088743b7f02b3a2029bcc, type: 3}
 --- !u!4 &38465262919553324
 Transform:

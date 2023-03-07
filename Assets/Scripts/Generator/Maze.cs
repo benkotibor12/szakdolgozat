@@ -7,7 +7,8 @@ public enum Method
 {
     RecursiveBacktracking,
     Kruskal,
-    Prim
+    Prim,
+    Wilson
 }
 
 public class Maze
@@ -36,6 +37,55 @@ public class Maze
             case Method.Prim:
                 Prim();
                 break;
+            case Method.Wilson:
+                Wilson();
+                break;
+        }
+    }
+
+    private void Wilson()
+    {
+        List<Cell> unvisitedCells = new();
+        for (int i = 0; i < board.width; i++)
+        {
+            for (int j = 0; j < board.height; j++)
+            {
+                unvisitedCells.Add(board.grid[i, j]);
+            }
+        }
+
+        Cell start = unvisitedCells[UnityEngine.Random.Range(0, unvisitedCells.Count)];
+        unvisitedCells.Remove(start);
+
+        while (unvisitedCells.Count > 0)
+        {
+            Cell current = unvisitedCells[UnityEngine.Random.Range(0, unvisitedCells.Count)];
+            Stack<Cell> path = new();
+            path.Push(current);
+            while (unvisitedCells.Contains(current))
+            {
+                Cell next = GetNeigbour(current, false);
+                if (path.Contains(next))
+                {
+                    Cell pop = new(-1, -1);
+                    while (pop != next)
+                    {
+                        pop = path.Pop();
+                    }
+                }
+                path.Push(next);
+                current = next;
+            }
+
+            Cell[] pathArray = path.ToArray();
+            for (int i = 0; i < path.Count - 1; i++)
+            {
+                RemoveWallBetween(pathArray[i], pathArray[i + 1]);
+            }
+            for (int i = 0; i < path.Count; i++)
+            {
+                unvisitedCells.Remove(pathArray[i]);
+            }
         }
     }
 
