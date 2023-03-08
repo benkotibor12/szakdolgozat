@@ -409,25 +409,25 @@ public class Maze
 
     private List<Cell> GetNeighbours(Cell cell)
     {
-        List<Cell> neigbours = new();
+        List<Cell> neighbours = new();
         if (cell.x - 1 >= 0)
         {
-            neigbours.Add(board.grid[cell.x - 1, cell.y]);
+            neighbours.Add(board.grid[cell.x - 1, cell.y]);
         }
         if (cell.x + 1 < board.width)
         {
-            neigbours.Add(board.grid[cell.x + 1, cell.y]);
+            neighbours.Add(board.grid[cell.x + 1, cell.y]);
         }
         if (cell.y - 1 >= 0)
         {
-            neigbours.Add(board.grid[cell.x, cell.y - 1]);
+            neighbours.Add(board.grid[cell.x, cell.y - 1]);
         }
         if (cell.y + 1 < board.height)
         {
-            neigbours.Add(board.grid[cell.x, cell.y + 1]);
+            neighbours.Add(board.grid[cell.x, cell.y + 1]);
         }
 
-        return neigbours.Count > 0 ? neigbours : null;
+        return neighbours.Count > 0 ? neighbours : null;
     }
 
     public void SetMazeExit()
