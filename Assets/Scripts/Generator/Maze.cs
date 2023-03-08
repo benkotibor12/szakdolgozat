@@ -33,7 +33,7 @@ public class Maze
                 break;
             case Method.Kruskal:
                 Kruskal();
-                List<Cell> path = FindLongestPath();
+
                 break;
             case Method.Prim:
                 Prim();
@@ -42,6 +42,7 @@ public class Maze
                 Wilson();
                 break;
         }
+        SetMazeExit();
     }
 
     private void Wilson()
@@ -172,64 +173,6 @@ public class Maze
                 current = route.Pop();
             }
         }
-    }
-
-    private List<Cell> GetFrontiers(Cell cell)
-    {
-        List<Cell> frontiers = new();
-        if (cell.x - 1 >= 0)
-        {
-            if (!board.grid[cell.x - 1, cell.y].visited)
-            {
-                frontiers.Add(board.grid[cell.x - 1, cell.y]);
-            }
-        }
-        if (cell.x + 1 < board.width)
-        {
-            if (!board.grid[cell.x + 1, cell.y].visited)
-            {
-                frontiers.Add(board.grid[cell.x + 1, cell.y]);
-            }
-        }
-        if (cell.y - 1 >= 0)
-        {
-            if (!board.grid[cell.x, cell.y - 1].visited)
-            {
-                frontiers.Add(board.grid[cell.x, cell.y - 1]);
-            }
-        }
-        if (cell.y + 1 < board.height)
-        {
-            if (!board.grid[cell.x, cell.y + 1].visited)
-            {
-                frontiers.Add(board.grid[cell.x, cell.y + 1]);
-            }
-        }
-
-        return frontiers.Count > 0 ? frontiers : null;
-    }
-
-    private List<Cell> GetNeighbours(Cell cell)
-    {
-        List<Cell> frontiers = new();
-        if (cell.x - 1 >= 0)
-        {
-            frontiers.Add(board.grid[cell.x - 1, cell.y]);
-        }
-        if (cell.x + 1 < board.width)
-        {
-            frontiers.Add(board.grid[cell.x + 1, cell.y]);
-        }
-        if (cell.y - 1 >= 0)
-        {
-            frontiers.Add(board.grid[cell.x, cell.y - 1]);
-        }
-        if (cell.y + 1 < board.height)
-        {
-            frontiers.Add(board.grid[cell.x, cell.y + 1]);
-        }
-
-        return frontiers.Count > 0 ? frontiers : null;
     }
 
     public bool HasWallBetween(Cell a, Cell b)
@@ -429,14 +372,71 @@ public class Maze
         return neighbours.Count > 0 ? neighbours[UnityEngine.Random.Range(0, neighbours.Count)] : null;
     }
 
-    public List<Cell> FindLongestPath()
+    private List<Cell> GetFrontiers(Cell cell)
+    {
+        List<Cell> frontiers = new();
+        if (cell.x - 1 >= 0)
+        {
+            if (!board.grid[cell.x - 1, cell.y].visited)
+            {
+                frontiers.Add(board.grid[cell.x - 1, cell.y]);
+            }
+        }
+        if (cell.x + 1 < board.width)
+        {
+            if (!board.grid[cell.x + 1, cell.y].visited)
+            {
+                frontiers.Add(board.grid[cell.x + 1, cell.y]);
+            }
+        }
+        if (cell.y - 1 >= 0)
+        {
+            if (!board.grid[cell.x, cell.y - 1].visited)
+            {
+                frontiers.Add(board.grid[cell.x, cell.y - 1]);
+            }
+        }
+        if (cell.y + 1 < board.height)
+        {
+            if (!board.grid[cell.x, cell.y + 1].visited)
+            {
+                frontiers.Add(board.grid[cell.x, cell.y + 1]);
+            }
+        }
+
+        return frontiers.Count > 0 ? frontiers : null;
+    }
+
+    private List<Cell> GetNeighbours(Cell cell)
+    {
+        List<Cell> neigbours = new();
+        if (cell.x - 1 >= 0)
+        {
+            neigbours.Add(board.grid[cell.x - 1, cell.y]);
+        }
+        if (cell.x + 1 < board.width)
+        {
+            neigbours.Add(board.grid[cell.x + 1, cell.y]);
+        }
+        if (cell.y - 1 >= 0)
+        {
+            neigbours.Add(board.grid[cell.x, cell.y - 1]);
+        }
+        if (cell.y + 1 < board.height)
+        {
+            neigbours.Add(board.grid[cell.x, cell.y + 1]);
+        }
+
+        return neigbours.Count > 0 ? neigbours : null;
+    }
+
+    public void SetMazeExit()
     {
         ResetVisitedStatus();
         Cell start = board.grid[startX, startY];
         List<Cell> longestPath = new();
         DFS(start, ref longestPath);
-        DebugPath(longestPath);
-        return longestPath;
+        longestPath.ElementAt(longestPath.Count - 1).isExit = true;
     }
 
     private void DFS(Cell start, ref List<Cell> longestPath)
@@ -459,11 +459,11 @@ public class Maze
                     longestPath.AddRange(path);
                 }
 
-                foreach (Cell neighbor in GetNeighbours(current))
+                foreach (Cell neigbour in GetNeighbours(current))
                 {
-                    if (!neighbor.visited && !HasWallBetween(current, neighbor))
+                    if (!neigbour.visited && !HasWallBetween(current, neigbour))
                     {
-                        stack.Push((neighbor, new List<Cell>(path)));
+                        stack.Push((neigbour, new List<Cell>(path)));
                     }
                 }
             }
@@ -477,6 +477,7 @@ public class Maze
             cell.isExit = true;
         }
     }
+
     private void ResetVisitedStatus()
     {
         for (int i = 0; i < board.width; i++)
