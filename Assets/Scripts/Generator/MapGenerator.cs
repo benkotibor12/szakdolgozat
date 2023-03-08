@@ -50,8 +50,18 @@ public class MapGenerator : MonoBehaviour
                     bottom.SetActive(false);
                 }
                 platformUI.UpdateText(maze.board.grid[i, j].index.ToString());
-                Instantiate(platformPrefab, new Vector3(i * offset, 0, j * offset), platformPrefab.transform.rotation);
-                ResetPrefab(platformPrefab);
+                if(maze.board.grid[i, j].isExit)
+                {
+                    GameObject prefabInstance = Instantiate(platformPrefab, new Vector3(i * offset, 0, j * offset), platformPrefab.transform.rotation);
+                    prefabInstance.transform.Find("Floor").gameObject.GetComponent<Renderer>().material.color = Color.red;
+                    ResetPrefab(platformPrefab);
+                    
+                }
+                else
+                {
+                    Instantiate(platformPrefab, new Vector3(i * offset, 0, j * offset), platformPrefab.transform.rotation);
+                    ResetPrefab(platformPrefab);
+                }
             }
         }
     }
