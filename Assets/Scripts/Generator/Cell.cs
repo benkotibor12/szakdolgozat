@@ -13,6 +13,7 @@ public class Cell
     public Walls walls;
     public int index;
     public string label;
+    public bool isExit;
 
     public Cell(int x, int y)
     {
@@ -25,6 +26,7 @@ public class Cell
         walls.bottom = true;
         index = -1;
         label = "N/A";
+        isExit = false;
     }
 
     public int GetActiveWalls()

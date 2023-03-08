@@ -33,6 +33,7 @@ public class Maze
                 break;
             case Method.Kruskal:
                 Kruskal();
+                List<Cell> path = FindLongestPath();
                 break;
             case Method.Prim:
                 Prim();
@@ -203,6 +204,29 @@ public class Maze
             {
                 frontiers.Add(board.grid[cell.x, cell.y + 1]);
             }
+        }
+
+        return frontiers.Count > 0 ? frontiers : null;
+    }
+
+    private List<Cell> GetNeighbours(Cell cell)
+    {
+        List<Cell> frontiers = new();
+        if (cell.x - 1 >= 0)
+        {
+            frontiers.Add(board.grid[cell.x - 1, cell.y]);
+        }
+        if (cell.x + 1 < board.width)
+        {
+            frontiers.Add(board.grid[cell.x + 1, cell.y]);
+        }
+        if (cell.y - 1 >= 0)
+        {
+            frontiers.Add(board.grid[cell.x, cell.y - 1]);
+        }
+        if (cell.y + 1 < board.height)
+        {
+            frontiers.Add(board.grid[cell.x, cell.y + 1]);
         }
 
         return frontiers.Count > 0 ? frontiers : null;
@@ -403,5 +427,64 @@ public class Maze
         }
 
         return neighbours.Count > 0 ? neighbours[UnityEngine.Random.Range(0, neighbours.Count)] : null;
+    }
+
+    public List<Cell> FindLongestPath()
+    {
+        ResetVisitedStatus();
+        Cell start = board.grid[startX, startY];
+        List<Cell> longestPath = new();
+        DFS(start, ref longestPath);
+        DebugPath(longestPath);
+        return longestPath;
+    }
+
+    private void DFS(Cell start, ref List<Cell> longestPath)
+    {
+        Stack<(Cell, List<Cell>)> stack = new Stack<(Cell, List<Cell>)>();
+        stack.Push((start, new List<Cell>()));
+
+        while (stack.Count > 0)
+        {
+            (Cell current, List<Cell> path) = stack.Pop();
+
+            if (!current.visited)
+            {
+                current.visited = true;
+                path.Add(current);
+
+                if (path.Count > longestPath.Count)
+                {
+                    longestPath.Clear();
+                    longestPath.AddRange(path);
+                }
+
+                foreach (Cell neighbor in GetNeighbours(current))
+                {
+                    if (!neighbor.visited && !HasWallBetween(current, neighbor))
+                    {
+                        stack.Push((neighbor, new List<Cell>(path)));
+                    }
+                }
+            }
+        }
+    }
+
+    public void DebugPath(List<Cell> path)
+    {
+        foreach (Cell cell in path)
+        {
+            cell.isExit = true;
+        }
+    }
+    private void ResetVisitedStatus()
+    {
+        for (int i = 0; i < board.width; i++)
+        {
+            for (int j = 0; j < board.height; j++)
+            {
+                board.grid[i, j].visited = false;
+            }
+        }
     }
 }

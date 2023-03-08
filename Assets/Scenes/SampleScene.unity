@@ -510,8 +510,9 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   width: 11
   height: 11
-  method: 3
+  method: 1
   platformPrefab: {fileID: 1994551650484379695, guid: 581d696ad44088743b7f02b3a2029bcc, type: 3}
+  exitPrefab: {fileID: 1994551650484379695, guid: c92d879a06157ad4cac6df0cb1ad3753, type: 3}
 --- !u!4 &38465262919553324
 Transform:
   m_ObjectHideFlags: 0
