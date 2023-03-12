@@ -6,6 +6,7 @@ public class MapGenerator : MonoBehaviour
     private Maze maze;
     public Method method;
     public GameObject platformPrefab;
+    public bool debugMode = false;
     private PlatformUI platformUI;
 
     GameObject left;
@@ -49,13 +50,16 @@ public class MapGenerator : MonoBehaviour
                 {
                     bottom.SetActive(false);
                 }
-                platformUI.UpdateText(maze.board.grid[i, j].index.ToString());
-                if(maze.board.grid[i, j].isExit)
+                if (debugMode)
+                {
+                    platformUI.UpdateText(maze.board.grid[i, j].index.ToString());
+                }
+                if (maze.board.grid[i, j].isExit)
                 {
                     GameObject prefabInstance = Instantiate(platformPrefab, new Vector3(i * offset, 0, j * offset), platformPrefab.transform.rotation);
                     prefabInstance.transform.Find("Floor").gameObject.GetComponent<Renderer>().material.color = Color.red;
                     ResetPrefab(platformPrefab);
-                    
+
                 }
                 else
                 {

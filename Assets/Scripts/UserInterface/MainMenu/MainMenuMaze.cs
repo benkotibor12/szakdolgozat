@@ -117,7 +117,7 @@ public class MainMenuMaze : MonoBehaviour
         {
             currentObject = items[current.x, current.y].transform.Find("Cell").gameObject;
             ChangeMaterial(currentObject, material);
-            ChangePostProcessProfile(currentObject, profile);
+            //ChangePostProcessProfile(currentObject, profile);
 
             Cell neigbour = GetRandomNeigbour(current);
             yield return new WaitForSeconds(time);
