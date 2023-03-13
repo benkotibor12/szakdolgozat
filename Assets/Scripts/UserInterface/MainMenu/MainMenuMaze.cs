@@ -23,7 +23,6 @@ public class MainMenuMaze : MonoBehaviour
     private IEnumerator playerCoroutine;
     private IEnumerator enemyCoroutine;
 
-    private Color defaultColor;
     private void Awake()
     {
         maze = new(width, height);
@@ -32,12 +31,12 @@ public class MainMenuMaze : MonoBehaviour
         cellCanvas.renderMode = RenderMode.ScreenSpaceCamera;
         cellCanvas.worldCamera = mainCamera;
     }
+
     private void Start()
     {
         GameObject cell = cellPrefab.transform.Find("Cell").gameObject;
         RectTransform cellTransform = cell.GetComponent<RectTransform>();
         Vector2 offset = cellTransform.sizeDelta;
-        defaultColor = cellTransform.GetComponent<Image>().color;
         mazeCells = new GameObject[width, height];
         for (int i = 0; i < width; i++)
         {
@@ -46,7 +45,6 @@ public class MainMenuMaze : MonoBehaviour
                 GameObject currentCell = Instantiate(cellPrefab, Vector3.zero, cellPrefab.transform.rotation);
                 currentCell.transform.Find("Cell").gameObject.GetComponent<RectTransform>().anchoredPosition = new Vector2(i * offset.x - cameraOffset.x, j * offset.y - cameraOffset.y);
                 mazeCells[i, j] = currentCell;
-                //ResetPrefab(cellPrefab);
             }
         }
         playerCoroutine = MenuBackgroundAnimationWithBloom2(mazeCells, Vector2.zero, playerMaterial, playerProfile, 0.75f);
@@ -63,51 +61,6 @@ public class MainMenuMaze : MonoBehaviour
         }
     }
 
-    private IEnumerator MenuBackgroundAnimation(GameObject[,] items, Vector2 startingPoint, Color color, float time)
-    {
-        Cell start = maze.board.grid[(int)startingPoint.x, (int)startingPoint.y];
-        Cell current = start;
-        while (true)
-        {
-            items[current.x, current.y].transform.Find("Cell").gameObject.GetComponent<Image>().color = color;
-            Cell neigbour = GetRandomNeigbour(current);
-            yield return new WaitForSeconds(time);
-            items[current.x, current.y].transform.Find("Cell").gameObject.GetComponent<Image>().color = defaultColor;
-            current = neigbour;
-        }
-    }
-
-    private IEnumerator MenuBackgroundAnimationWithBloom(GameObject[,] items, Vector2 startingPoint, Color color, float time)
-    {
-        Cell start = maze.board.grid[(int)startingPoint.x, (int)startingPoint.y];
-        Cell current = start;
-        while (true)
-        {
-            Bloom bloom;
-
-            items[current.x, current.y].transform.Find("Cell").gameObject.GetComponent<Image>().color = color;
-            items[current.x, current.y].transform.Find("Cell").gameObject.GetComponent<Image>().material.color = color;
-            items[current.x, current.y].transform.Find("Cell").gameObject.GetComponent<Image>().material.SetColor("_EmissionColor", color);
-            items[current.x, current.y].transform.Find("Cell").gameObject.GetComponent<Image>().material.EnableKeyword("_EMISSION");
-            items[current.x, current.y].transform.Find("Cell").gameObject.GetComponent<PostProcessVolume>().profile.TryGetSettings(out bloom);
-            bloom.intensity.value = bloomIntensity;
-            bloom.color.value = color;
-            Debug.Log(current.x + "" + current.y);
-            Cell neigbour = GetRandomNeigbour(current);
-            yield return new WaitForSeconds(time);
-
-            items[current.x, current.y].transform.Find("Cell").gameObject.GetComponent<Image>().color = Color.black;
-            items[current.x, current.y].transform.Find("Cell").gameObject.GetComponent<Image>().material.color = Color.black;
-            items[current.x, current.y].transform.Find("Cell").gameObject.GetComponent<Image>().material.SetColor("_EmissionColor", Color.black);
-            items[current.x, current.y].transform.Find("Cell").gameObject.GetComponent<Image>().material.DisableKeyword("_EMISSION");
-            items[current.x, current.y].transform.Find("Cell").gameObject.GetComponent<PostProcessVolume>().profile.TryGetSettings(out bloom);
-            bloom.intensity.value = 0;
-            bloom.color.value = Color.black;
-
-            current = neigbour;
-        }
-    }
-
     private IEnumerator MenuBackgroundAnimationWithBloom2(GameObject[,] items, Vector2 startingPoint, Material material, PostProcessProfile profile, float time)
     {
         Cell start = maze.board.grid[(int)startingPoint.x, (int)startingPoint.y];
@@ -117,8 +70,6 @@ public class MainMenuMaze : MonoBehaviour
         {
             currentObject = items[current.x, current.y].transform.Find("Cell").gameObject;
             ChangeMaterial(currentObject, material);
-            //ChangePostProcessProfile(currentObject, profile);
-
             Cell neigbour = GetRandomNeigbour(current);
             yield return new WaitForSeconds(time);
             ChangeMaterial(currentObject, basicMaterial);
