@@ -33,7 +33,9 @@ public class Maze
                 break;
             case Method.Kruskal:
                 Kruskal();
-
+                List<Cell> path = new();
+                DFS(board.grid[0, 0], ref path);
+                DebugPath(path);
                 break;
             case Method.Prim:
                 Prim();
