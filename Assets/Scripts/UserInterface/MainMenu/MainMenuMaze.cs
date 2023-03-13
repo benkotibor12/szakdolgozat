@@ -47,8 +47,8 @@ public class MainMenuMaze : MonoBehaviour
                 mazeCells[i, j] = currentCell;
             }
         }
-        playerCoroutine = MenuBackgroundAnimationWithBloom2(mazeCells, Vector2.zero, playerMaterial, playerProfile, 0.75f);
-        enemyCoroutine = MenuBackgroundAnimationWithBloom2(mazeCells, new Vector2(maze.board.width - 1, maze.board.height - 1), enemyMaterial, enemyProfile, 1.25f);
+        playerCoroutine = MenuBackgroundAnimation(mazeCells, Vector2.zero, playerMaterial, playerProfile, 0.75f);
+        enemyCoroutine = MenuBackgroundAnimation(mazeCells, new Vector2(maze.board.width - 1, maze.board.height - 1), enemyMaterial, enemyProfile, 1.25f);
         StartCoroutine(playerCoroutine);
         StartCoroutine(enemyCoroutine);
     }
@@ -61,7 +61,7 @@ public class MainMenuMaze : MonoBehaviour
         }
     }
 
-    private IEnumerator MenuBackgroundAnimationWithBloom2(GameObject[,] items, Vector2 startingPoint, Material material, PostProcessProfile profile, float time)
+    private IEnumerator MenuBackgroundAnimation(GameObject[,] items, Vector2 startingPoint, Material material, PostProcessProfile profile, float time)
     {
         Cell start = maze.board.grid[(int)startingPoint.x, (int)startingPoint.y];
         Cell current = start;
