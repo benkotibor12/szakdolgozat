@@ -1,0 +1,24 @@
+{
+  "story": [
+    {
+      "scene": "First Scene",
+      "name": "Alpha",
+      "dialogue": "first dialogue first dialogue first dialogue first dialogue first dialogue first dialogue \n sceond dialogue sceond dialogue over"
+    },
+    {
+      "scene": "First Scene",
+      "name": "Beta",
+      "dialogue": "second dialogue"
+    },
+    {
+      "scene": "Second Scene",
+      "name": "Alpha",
+      "dialogue": "first dialogue"
+    },
+    {
+      "scene": "Second Scene",
+      "name": "Beta",
+      "dialogue": "second dialogue"
+    }
+  ]
+}

@@ -9,6 +9,7 @@ public class Lamp : Interactable
     private bool isOn;
     protected override void Interact()
     {
+        StartCoroutine(DialogueSystemManager.Instance.DisplayDialogue(DialogueSystemManager.Instance.GetDialogue("First Scene"), 0.01f, 2.0f, 2.0f));
         isOn = !isOn;
         if (isOn)
         {
