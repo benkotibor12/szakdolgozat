@@ -2,12 +2,12 @@
   "story": [
     {
       "scene": "First Scene",
-      "name": "Alpha",
+      "name": "<color=blue>Alpha</color>",
       "dialogue": "first dialogue first dialogue first dialogue first dialogue first dialogue first dialogue \n sceond dialogue sceond dialogue over"
     },
     {
       "scene": "First Scene",
-      "name": "Beta",
+      "name": "<color=red>Beta</color>",
       "dialogue": "second dialogue"
     },
     {

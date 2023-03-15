@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.IO;
 using TMPro;
 using System.Collections;
+using UnityEngine.UI;
 
 [System.Serializable]
 public class Scene
@@ -47,10 +48,16 @@ public class DialogueSystemManager : MonoBehaviour
     }
 
     public TextMeshProUGUI storyText;
+    public Image dialogueBoxBackground;
+    public int dialogueBoxOffsetX;
+    public int dialogueBoxOffsetY;
     public float typingSpeed;
     public float readingSpeed;
     public float responseSpeed;
     public GameObject player;
+
+    private RectTransform textTransform;
+    private RectTransform dialogueBoxBackgroundTransform;
     private int currentIndex;
     private InputManager inputManager;
     private List<Scene> scenesList;
@@ -58,6 +65,9 @@ public class DialogueSystemManager : MonoBehaviour
     private void Start()
     {
         inputManager = player.GetComponent<InputManager>();
+        dialogueBoxBackgroundTransform = dialogueBoxBackground.GetComponent<RectTransform>();
+        textTransform = storyText.GetComponent<RectTransform>();
+        dialogueBoxBackgroundTransform.anchoredPosition = new Vector2(textTransform.anchoredPosition.x + dialogueBoxOffsetX, textTransform.anchoredPosition.y + dialogueBoxOffsetY);
         LoadStories("story.json");
     }
 
@@ -125,12 +135,14 @@ public class DialogueSystemManager : MonoBehaviour
 
             string dialogueWithoutName = dialogue.Replace(name, "");
             string[] sentences = dialogueWithoutName.Split("\n");
+            dialogueBoxBackground.enabled = true;
             foreach (string sentence in sentences)
             {
                 storyText.text = name;
                 foreach (char letter in sentence)
                 {
                     storyText.text += letter;
+                    dialogueBoxBackgroundTransform.sizeDelta = new Vector2(storyText.preferredWidth, dialogueBoxBackgroundTransform.sizeDelta.y);
                     yield return new WaitForSeconds(typingSpeed);
                 }
                 yield return new WaitForSeconds(readingSpeed);
@@ -138,6 +150,7 @@ public class DialogueSystemManager : MonoBehaviour
             yield return new WaitForSeconds(responseSpeed);
         }
         storyText.text = "";
+        dialogueBoxBackground.enabled = false;
     }
 
     public List<string> GetDialogue(string sceneName)
