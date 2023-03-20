@@ -1,3 +1,4 @@
+using System.Collections.Generic;
 using UnityEngine;
 
 public class GameManager : MonoBehaviour
@@ -16,6 +17,7 @@ public class GameManager : MonoBehaviour
         }
     }
 
+    private List<GameObject> initializedCells;
     private void Awake()
     {
         if (instance == null)
@@ -27,6 +29,7 @@ public class GameManager : MonoBehaviour
         {
             Destroy(gameObject);
         }
+        initializedCells = new();
     }
 
     private LoadingScene loadingScene;
@@ -38,5 +41,20 @@ public class GameManager : MonoBehaviour
     public void LoadScene(string sceneName)
     {
         loadingScene.LoadScene(sceneName);
+    }
+
+    public void AddInitializedCell(GameObject cell)
+    {
+        initializedCells.Add(cell);
+    }
+
+    public void AddInitializedCells(List<GameObject> cells)
+    {
+        initializedCells.AddRange(cells);
+    }
+
+    public List<GameObject> GetInitializedCells()
+    {
+        return initializedCells;
     }
 }
