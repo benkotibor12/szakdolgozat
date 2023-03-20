@@ -8,7 +8,6 @@ public class MapGenerator : MonoBehaviour
     public GameObject platformPrefab;
     public bool debugMode = false;
     private PlatformUI platformUI;
-
     GameObject left;
     GameObject right;
     GameObject top;
