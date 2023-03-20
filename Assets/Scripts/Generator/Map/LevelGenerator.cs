@@ -8,6 +8,7 @@ public class LevelGenerator : MonoBehaviour
     public GameObject torchPrefab;
     public GameObject chestPrefab;
     public GameObject chairPrefab;
+    public GameObject exitPrefab;
 
     private bool called = false;
 
@@ -29,18 +30,26 @@ public class LevelGenerator : MonoBehaviour
     {
         foreach (GameObject platform in initializedCells)
         {
-            foreach (Transform location in platform.GetComponent<Platform>().floorSpawnLocations)
+            if (platform.CompareTag("ExitCell"))
             {
-                if (SpawnWithChance(77))
-                {
-                    Instantiate(chestPrefab, location.position, chestPrefab.transform.rotation);
-                }
+                Transform location = platform.GetComponent<Platform>().floorSpawnLocations[0];
+                Instantiate(exitPrefab, location.position, chestPrefab.transform.rotation);
             }
-            foreach (Transform location in platform.GetComponent<Platform>().wallSpawnLocations)
+            else
             {
-                if (SpawnWithChance(88))
+                foreach (Transform location in platform.GetComponent<Platform>().floorSpawnLocations)
                 {
-                    Instantiate(torchPrefab, location.position, torchPrefab.transform.rotation);
+                    if (SpawnWithChance(77))
+                    {
+                        Instantiate(chestPrefab, location.position, chestPrefab.transform.rotation);
+                    }
+                }
+                foreach (Transform location in platform.GetComponent<Platform>().wallSpawnLocations)
+                {
+                    if (SpawnWithChance(88))
+                    {
+                        Instantiate(torchPrefab, location.position, torchPrefab.transform.rotation);
+                    }
                 }
             }
         }

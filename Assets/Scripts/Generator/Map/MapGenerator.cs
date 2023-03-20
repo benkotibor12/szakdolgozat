@@ -58,6 +58,7 @@ public class MapGenerator : MonoBehaviour
                 {
                     prefabInstance = Instantiate(platformPrefab, new Vector3(i * offset, 0, j * offset), platformPrefab.transform.rotation);
                     prefabInstance.transform.Find("Floor").gameObject.GetComponent<Renderer>().material.color = Color.red;
+                    prefabInstance.tag = "ExitCell";
                     ResetPrefab(platformPrefab);
 
                 }
