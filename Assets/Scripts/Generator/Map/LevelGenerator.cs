@@ -10,30 +10,31 @@ public class LevelGenerator : MonoBehaviour
     public GameObject chairPrefab;
     public GameObject exitPrefab;
 
-    private bool called = false;
+    private bool called;
 
     void Start()
     {
-        initializedCells = GameManager.Instance.GetInitializedCells();
+        called = false;
     }
 
     private void Update()
     {
         if (!called)
         {
-            PopulateMaze();
             called = true;
+            PopulateMaze();
         }
     }
 
     public void PopulateMaze()
     {
+        initializedCells = GameManager.Instance.GetInitializedCells();
         foreach (GameObject platform in initializedCells)
         {
             if (platform.CompareTag("ExitCell"))
             {
-                Transform location = platform.GetComponent<Platform>().floorSpawnLocations[0];
-                Instantiate(exitPrefab, location.position, chestPrefab.transform.rotation);
+                Vector3 location = platform.GetComponent<Platform>().transform.position;
+                Instantiate(exitPrefab, location, exitPrefab.transform.rotation);
             }
             else
             {
@@ -48,7 +49,7 @@ public class LevelGenerator : MonoBehaviour
                 {
                     if (SpawnWithChance(88))
                     {
-                        Instantiate(torchPrefab, location.position, torchPrefab.transform.rotation);
+                        //Instantiate(torchPrefab, location.position, torchPrefab.transform.rotation);
                     }
                 }
             }

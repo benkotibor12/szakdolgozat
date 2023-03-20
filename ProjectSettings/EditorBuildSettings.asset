@@ -9,9 +9,15 @@ EditorBuildSettings:
     path: Assets/Scenes/MainMenu.unity
     guid: bf86d77b46ad9d14a96f546d65a38bf8
   - enabled: 1
-    path: Assets/Scenes/SampleScene.unity
+    path: Assets/Scenes/MazeScenes/Wilson.unity
+    guid: e3c0b27c53062b54f863c03e5e5c35e6
+  - enabled: 1
+    path: Assets/Scenes/MazeScenes/Kruskal.unity
     guid: 9fc0d4010bbf28b4594072e72b8655ab
   - enabled: 1
-    path: Assets/Scenes/SampleScene2.unity
-    guid: 329cd4357d02b194a996f8dc8d913580
+    path: Assets/Scenes/MazeScenes/RecursiveBacktracking.unity
+    guid: dee1cb9f8f6958c4681d5c100c1fd2dd
+  - enabled: 1
+    path: Assets/Scenes/MazeScenes/Prim.unity
+    guid: 4cfe8a7ae2449fe4482d9974a6f874d9
   m_configObjects: {}
