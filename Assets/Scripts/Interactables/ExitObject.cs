@@ -1,5 +1,3 @@
-using UnityEngine;
-
 public class ExitObject : Interactable
 {
     public string sceneName;
@@ -7,7 +5,6 @@ public class ExitObject : Interactable
     private void Start()
     {
         sceneName = GameManager.Instance.NextScene;
-        Debug.Log(sceneName);
     }
 
     protected override void Interact()

@@ -12,10 +12,6 @@ public class SceneChangeHandler : MonoBehaviour
         GameManager gameManager = FindObjectOfType<GameManager>();
         if (gameManager != null)
         {
-            gameManager.ResetInitilizedMazeCells();
-            gameManager.MazeWidth = gameManager.MazeWidth;
-            gameManager.MazeHeight = gameManager.MazeHeight;
-
             // Set the maze generation method and the next scene to load based on the loaded scene
             switch (scene.name)
             {
@@ -36,8 +32,7 @@ public class SceneChangeHandler : MonoBehaviour
                     gameManager.NextScene = "Prim";
                     break;
             }
-
-            Debug.Log(gameManager.NextScene);
+            gameManager.ResetInitilizedMazeCells();
         }
     }
 }
