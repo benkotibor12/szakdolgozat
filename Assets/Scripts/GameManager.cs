@@ -3,36 +3,26 @@ using UnityEngine;
 
 public class GameManager : MonoBehaviour
 {
-    private static GameManager instance;
+    [SerializeField] private Method mazeGenerationMethod;
+    [SerializeField] private int mazeWidth = 5;
+    [SerializeField] private int mazeHeight = 5;
+    [SerializeField] private string nextScene;
 
-    public static GameManager Instance
-    {
-        get
-        {
-            if (instance == null)
-            {
-                instance = FindObjectOfType<GameManager>();
-            }
-            return instance;
-        }
-    }
+    public Method MazeGenerationMethod { get => mazeGenerationMethod; set => mazeGenerationMethod = value; }
+    public int MazeWidth { get => mazeWidth; set => mazeWidth = value; }
+    public int MazeHeight { get => mazeHeight; set => mazeHeight = value; }
+    public string NextScene { get => nextScene; set => nextScene = value; }
 
-    private List<GameObject> initializedCells;
+    public static GameManager Instance { get; private set; }
+
+    private List<GameObject> initializedCells = new();
+    private LoadingScene loadingScene;
+
     private void Awake()
     {
-        if (instance == null)
-        {
-            instance = this;
-            DontDestroyOnLoad(gameObject);
-        }
-        else
-        {
-            Destroy(gameObject);
-        }
-        initializedCells = new();
+        Instance = this;
     }
 
-    private LoadingScene loadingScene;
     private void Start()
     {
         loadingScene = GetComponent<LoadingScene>();
@@ -53,8 +43,10 @@ public class GameManager : MonoBehaviour
         initializedCells.AddRange(cells);
     }
 
-    public List<GameObject> GetInitializedCells()
+    public List<GameObject> GetInitializedCells() => initializedCells;
+
+    public void ResetInitilizedMazeCells()
     {
-        return initializedCells;
+        initializedCells.Clear();
     }
 }

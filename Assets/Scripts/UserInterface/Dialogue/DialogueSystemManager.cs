@@ -6,7 +6,7 @@ using System.Collections;
 using UnityEngine.UI;
 
 [System.Serializable]
-public class Scene
+public class Scenes
 {
     public string scene;
     public string name;
@@ -15,7 +15,7 @@ public class Scene
 
 public class Stories
 {
-    public List<Scene> story = new List<Scene>();
+    public List<Scenes> story = new List<Scenes>();
 }
 
 public class DialogueSystemManager : MonoBehaviour
@@ -60,7 +60,7 @@ public class DialogueSystemManager : MonoBehaviour
     private RectTransform dialogueBoxBackgroundTransform;
     private int currentIndex;
     private InputManager inputManager;
-    private List<Scene> scenesList;
+    private List<Scenes> scenesList;
 
     private void Start()
     {
@@ -101,7 +101,7 @@ public class DialogueSystemManager : MonoBehaviour
         {
             if (currentIndex < scenesList.Count)
             {
-                Scene currentScene = scenesList[currentIndex];
+                Scenes currentScene = scenesList[currentIndex];
                 storyText.text = currentScene.scene + "\n" + currentScene.name + " : " + currentScene.dialogue;
                 currentIndex++;
             }
@@ -156,7 +156,7 @@ public class DialogueSystemManager : MonoBehaviour
     public List<string> GetDialogue(string sceneName)
     {
         List<string> dialogues = new();
-        foreach (Scene scene in scenesList)
+        foreach (Scenes scene in scenesList)
         {
             if (scene.scene.Equals(sceneName))
             {

@@ -1,10 +1,12 @@
-using System.Collections;
-using System.Collections.Generic;
-using UnityEngine;
-
 public class ExitObject : Interactable
 {
-    public string sceneName; 
+    public string sceneName;
+
+    private void Start()
+    {
+        sceneName = GameManager.Instance.NextScene;
+    }
+
     protected override void Interact()
     {
         GameManager.Instance.LoadScene(sceneName);

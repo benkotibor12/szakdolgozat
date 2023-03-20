@@ -16,7 +16,7 @@ public class LoadingScene : MonoBehaviour
     private IEnumerator LoadSceneAsync(string sceneName)
     {
         AsyncOperation operation = SceneManager.LoadSceneAsync(sceneName);
-        LoadingScreen.SetActive(true);
+        //LoadingScreen.SetActive(true);
 
         float timeout = 10f;
         float elapsedTime = 0f;
@@ -24,7 +24,7 @@ public class LoadingScene : MonoBehaviour
         while (!operation.isDone && elapsedTime < timeout)
         {
             float progress = Mathf.Clamp01(operation.progress / 0.9f);
-            LoadingBarFill.fillAmount = progress;
+            //LoadingBarFill.fillAmount = progress;
             elapsedTime += Time.deltaTime;
             yield return new WaitForEndOfFrame();
         }
@@ -33,7 +33,7 @@ public class LoadingScene : MonoBehaviour
         {
             Debug.LogError("Loading operation timed out.");
 
-            LoadingScreen.SetActive(false);
+            //LoadingScreen.SetActive(false);
             yield break; // exit the coroutine
         }
 
