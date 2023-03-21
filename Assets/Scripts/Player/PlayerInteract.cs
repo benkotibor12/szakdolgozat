@@ -2,7 +2,7 @@ using UnityEngine;
 
 public class PlayerInteract : MonoBehaviour
 {
-    public Inventory inventory;
+    [SerializeField] private Inventory inventory;
     private Camera cam;
     [SerializeField]
     private float distance = 3f;
@@ -16,6 +16,7 @@ public class PlayerInteract : MonoBehaviour
         cam = GetComponent<PlayerLook>().camera;
         playerUI = GetComponent<PlayerUI>();
         inputManager = GetComponent<InputManager>();
+        inventory = FindObjectOfType<Inventory>();
     }
 
     // Update is called once per frame
