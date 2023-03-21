@@ -261,6 +261,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 49d43673d52f06c47820c8b84af1d710, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  inventory: {fileID: 0}
   distance: 3
   mask:
     serializedVersion: 2
