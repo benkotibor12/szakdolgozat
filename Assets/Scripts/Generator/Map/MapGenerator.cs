@@ -81,6 +81,10 @@ public class MapGenerator : MonoBehaviour
         {
             platformUI.UpdateText(maze.board.grid[i, j].index.ToString());
         }
+        else
+        {
+            platformUI.UpdateText("");
+        }
     }
     public void ResetPrefab(GameObject prefab)
     {
