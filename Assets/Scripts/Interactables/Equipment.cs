@@ -1,12 +1,12 @@
 using UnityEngine;
 
-public class Flashlight : Interactable, IInventoryItem
+public class Equipment : Interactable, IInventoryItem
 {
-    [SerializeField] private string name = "Flashlight";
+    [SerializeField] private string itemName = "Flashlight";
     [SerializeField] private string keybind = "3";
     [SerializeField] private Sprite image;
 
-    public string Name => name;
+    public string Name => itemName;
 
     public Sprite Image => image;
 
@@ -15,6 +15,7 @@ public class Flashlight : Interactable, IInventoryItem
     public void OnPickup()
     {
         gameObject.SetActive(false);
+        gameObject.layer = 0;
     }
 
     public void OnSelect()
