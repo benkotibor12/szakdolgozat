@@ -29,7 +29,8 @@ public class GameManager : MonoBehaviour, IDataPersistence
     private void Start()
     {
         loadingScene = GetComponent<LoadingScene>();
-        InitScene(SceneManager.GetActiveScene().name);
+        CurrentScene = SceneManager.GetActiveScene().name;
+        InitScene(CurrentScene);
     }
 
     public void LoadScene(string sceneName)
@@ -39,7 +40,7 @@ public class GameManager : MonoBehaviour, IDataPersistence
 
     public void InitScene(string sceneName)
     {
-        if (!CurrentScene.Equals(sceneName))
+        if (!CurrentScene.Equals(sceneName) && !CurrentScene.Equals(""))
         {
             loadingScene.LoadScene(CurrentScene);
         }
