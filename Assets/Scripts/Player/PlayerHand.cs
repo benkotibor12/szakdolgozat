@@ -3,6 +3,7 @@ using UnityEngine;
 public class PlayerHand : MonoBehaviour
 {
     private Inventory inventory;
+
     void Start()
     {
         inventory = FindObjectOfType<Inventory>();

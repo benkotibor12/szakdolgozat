@@ -3,21 +3,25 @@ using UnityEngine;
 public class PlayerMotor : MonoBehaviour
 {
     private CharacterController controller;
+    private Animator playerAnimator;
     private Vector3 playerVelocity;
     private bool isGrounded;
     public float speed = 5f;
     public float gravity = -9.8f;
     public float jumpHeight = 1f;
-    // Start is called before the first frame update
+
     void Start()
     {
         controller = GetComponent<CharacterController>();
+        playerAnimator = GetComponent<Animator>();
     }
 
-    // Update is called once per frame
     void Update()
     {
         isGrounded = controller.isGrounded;
+        playerAnimator.SetFloat("jumpVelocity", playerVelocity.y);
+
+        Debug.Log(playerVelocity.y);
     }
 
     public void ProcessMove(Vector2 input)
@@ -27,15 +31,18 @@ public class PlayerMotor : MonoBehaviour
         moveDirection.z = input.y;
         controller.Move(transform.TransformDirection(moveDirection) * speed * Time.deltaTime);
         playerVelocity.y += gravity * Time.deltaTime;
-        if(isGrounded && playerVelocity.y < 0)
+        if (isGrounded && playerVelocity.y < 0)
         {
             playerVelocity.y = -3f;
+            playerAnimator.SetBool("isJumping", false);
+
         }
         controller.Move(playerVelocity * Time.deltaTime);
     }
 
     public void Jump()
     {
+        playerAnimator.SetBool("isJumping", true);
         if (isGrounded)
         {
             playerVelocity.y = Mathf.Sqrt(jumpHeight * -3.0f * gravity);

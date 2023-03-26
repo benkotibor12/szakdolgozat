@@ -16,7 +16,7 @@ TagManager:
   - Glow
   - Spawn
   - PostProcess
-  - 
+  - Equipment
   - 
   - 
   - 
@@ -39,6 +39,9 @@ TagManager:
   - 
   - 
   m_SortingLayers:
+  - name: Equipment
+    uniqueID: 933915299
+    locked: 0
   - name: Default
     uniqueID: 0
     locked: 0
