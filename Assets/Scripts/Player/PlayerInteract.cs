@@ -13,7 +13,7 @@ public class PlayerInteract : MonoBehaviour
 
     void Start()
     {
-        cam = GetComponent<PlayerLook>().camera;
+        cam = GetComponentInChildren<Camera>();
         playerUI = GetComponent<PlayerUI>();
         inputManager = GetComponent<InputManager>();
         inventory = FindObjectOfType<Inventory>();

@@ -1,27 +1,40 @@
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 
 public class InputManager : MonoBehaviour
 {
-    private PlayerInput playerInput;
     public PlayerInput.OnFootActions onFoot;
+    private PlayerInput playerInput;
 
     private PlayerMotor motor;
     private PlayerLook look;
+    private Animator playerAnimator;
+
     void Awake()
     {
         playerInput = new PlayerInput();
         onFoot = playerInput.OnFoot;
         motor = GetComponent<PlayerMotor>();
         look = GetComponent<PlayerLook>();
-        onFoot.Jump.performed += ctx => motor.Jump();
+        playerAnimator = GetComponent<Animator>();
+        onFoot.Jump.performed += ctx =>
+        {
+            motor.Jump();
+            playerAnimator.SetBool("isJumping", true);
+        };
     }
 
-    // Update is called once per frame
     void Update()
     {
         motor.ProcessMove(onFoot.Movement.ReadValue<Vector2>());
+
+        if (onFoot.Movement.IsPressed())
+        {
+            playerAnimator.SetBool("isWalking", true);
+        }
+        if (!onFoot.Movement.IsPressed())
+        {
+            playerAnimator.SetBool("isWalking", false);
+        }        
     }
 
     private void LateUpdate()

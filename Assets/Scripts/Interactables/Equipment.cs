@@ -2,8 +2,8 @@ using UnityEngine;
 
 public class Equipment : Interactable, IInventoryItem
 {
-    [SerializeField] private string itemName = "Flashlight";
-    [SerializeField] private string keybind = "3";
+    [SerializeField] private string itemName = "Gun";
+    [SerializeField] private string keybind = "1";
     [SerializeField] private Sprite image;
 
     public string Name => itemName;
