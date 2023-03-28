@@ -1,3 +1,4 @@
+using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
@@ -10,20 +11,15 @@ public class LevelGenerator : MonoBehaviour
     public GameObject chairPrefab;
     public GameObject exitPrefab;
 
-    private bool called;
-
     void Start()
     {
-        called = false;
+        StartCoroutine(WaitForMapGeneration());
     }
 
-    private void Update()
+    IEnumerator WaitForMapGeneration()
     {
-        if (!called)
-        {
-            called = true;
-            PopulateMaze();
-        }
+        yield return new WaitUntil(() => GameManager.Instance.GetInitializedCells().Count > 0);
+        PopulateMaze();
     }
 
     public void PopulateMaze()
@@ -33,8 +29,8 @@ public class LevelGenerator : MonoBehaviour
         {
             if (platform.CompareTag("ExitCell"))
             {
-                Vector3 location = platform.GetComponent<Platform>().transform.position;
-                Instantiate(exitPrefab, location, exitPrefab.transform.rotation);
+                Transform location = platform.GetComponent<Platform>().floorSpawnLocations[0];
+                Instantiate(exitPrefab, location.position, exitPrefab.transform.rotation);
             }
             else
             {
