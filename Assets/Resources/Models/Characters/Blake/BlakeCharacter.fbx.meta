@@ -5,7 +5,7 @@ ModelImporter:
   internalIDToNameTable:
   - first:
       74: -4087565409043079578
-    second: armature|A-pose
+    second: A-pose
   - first:
       74: 6906246398617421156
     second: armature|dead
@@ -14,7 +14,7 @@ ModelImporter:
     second: armature|dead2
   - first:
       74: 205840253584506178
-    second: armature|gun_idle
+    second: gun_idle
   - first:
       74: -1843676517479246962
     second: armature|gun_shot
@@ -97,7 +97,7 @@ ModelImporter:
     extraUserProperties: []
     clipAnimations:
     - serializedVersion: 16
-      name: armature|A-pose
+      name: A-pose
       takeName: armature|A-pose
       internalID: 0
       firstFrame: 0
@@ -184,7 +184,7 @@ ModelImporter:
       maskSource: {instanceID: 0}
       additiveReferencePoseFrame: 0
     - serializedVersion: 16
-      name: armature|gun_idle
+      name: gun_idle
       takeName: armature|gun_idle
       internalID: 0
       firstFrame: 0
