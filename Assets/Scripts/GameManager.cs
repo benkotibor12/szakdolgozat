@@ -9,12 +9,14 @@ public class GameManager : MonoBehaviour, IDataPersistence
     [SerializeField] private int mazeHeight = 5;
     [SerializeField] private string nextScene;
     [SerializeField] private string currentScene;
+    [SerializeField] private Transform playerSpawnPoint;
 
     public Method MazeGenerationMethod { get => mazeGenerationMethod; set => mazeGenerationMethod = value; }
     public int MazeWidth { get => mazeWidth; set => mazeWidth = value; }
     public int MazeHeight { get => mazeHeight; set => mazeHeight = value; }
     public string NextScene { get => nextScene; set => nextScene = value; }
     public string CurrentScene { get => currentScene; set => currentScene = value; }
+    public Transform PlayerSpawnPoint { get => playerSpawnPoint; set => playerSpawnPoint = value; }
 
     public static GameManager Instance { get; private set; }
 

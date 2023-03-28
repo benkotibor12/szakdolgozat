@@ -1,3 +1,4 @@
+using System;
 using UnityEngine;
 
 public class MapGenerator : MonoBehaviour
@@ -43,6 +44,12 @@ public class MapGenerator : MonoBehaviour
                 UpdatePlatformUI(i, j);
 
                 GameObject prefabInstance = Instantiate(platformPrefab, new Vector3(i * offset, 0, j * offset), platformPrefab.transform.rotation);
+
+                if (maze.startX == i && maze.startY == j)
+                {
+                    prefabInstance.transform.Find("Floor").gameObject.GetComponent<Renderer>().material.color = Color.blue;
+                    prefabInstance.tag = "StartingCell";
+                }
 
                 if (maze.board.grid[i, j].isExit)
                 {

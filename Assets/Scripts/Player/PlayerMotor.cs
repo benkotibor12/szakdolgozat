@@ -1,3 +1,4 @@
+using System.Collections;
 using UnityEngine;
 
 public class PlayerMotor : MonoBehaviour
@@ -14,14 +15,20 @@ public class PlayerMotor : MonoBehaviour
     {
         controller = GetComponent<CharacterController>();
         playerAnimator = GetComponent<Animator>();
+        StartCoroutine(WaitForMapGeneration());
     }
+
+    IEnumerator WaitForMapGeneration()
+    {
+        yield return new WaitUntil(() => GameManager.Instance.GetInitializedCells().Count > 0);
+        transform.position = GetSpawnPoint();
+    }
+
 
     void Update()
     {
         isGrounded = controller.isGrounded;
         playerAnimator.SetFloat("jumpVelocity", playerVelocity.y);
-
-        Debug.Log(playerVelocity.y);
     }
 
     public void ProcessMove(Vector2 input)
@@ -47,5 +54,10 @@ public class PlayerMotor : MonoBehaviour
         {
             playerVelocity.y = Mathf.Sqrt(jumpHeight * -3.0f * gravity);
         }
+    }
+
+    private Vector3 GetSpawnPoint()
+    {
+        return GameManager.Instance.GetInitializedCells()[0].transform.position;
     }
 }
