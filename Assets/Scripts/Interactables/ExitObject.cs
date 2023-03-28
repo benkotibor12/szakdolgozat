@@ -10,5 +10,6 @@ public class ExitObject : Interactable
     protected override void Interact()
     {
         GameManager.Instance.LoadScene(sceneName);
+        AudioManager.Instance.Play("ExitSound");
     }
 }
