@@ -1,92 +1,134 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public struct PlatformWalls
+public enum WallName
 {
-    public Transform left;
-    public Transform right;
-    public Transform top;
-    public Transform bottom;
+    Left,
+    Right,
+    Bottom,
+    Top
 }
 
 public class Platform : MonoBehaviour
 {
-    public PlatformWalls platformWalls;
-    private List<bool> activeWalls = new List<bool>();
     public List<Transform> floorSpawnLocations;
     public List<Transform> wallSpawnLocations;
+    public Transform left, right, bottom, top;
+    public Transform leftGate, rightGate, bottomGate, topGate;
 
     private void Start()
     {
+        FindWallsAndGates();
+        HideGates();
         GetActiveWallCount();
         SetupSpawnLocations();
+        AddPillars();
+    }
+
+    private void FindWallsAndGates()
+    {
+        left = transform.Find("Left");
+        right = transform.Find("Right");
+        bottom = transform.Find("Bottom");
+        top = transform.Find("Top");
+        leftGate = transform.Find("LeftGate");
+        rightGate = transform.Find("RightGate");
+        bottomGate = transform.Find("BottomGate");
+        topGate = transform.Find("TopGate");
     }
 
     public int GetActiveWallCount()
     {
-        Transform left = transform.Find("Left");
+        int counter = 0;
         if (left != null && left.gameObject.activeSelf)
         {
-            platformWalls.left = left;
-            activeWalls.Add(platformWalls.left != null);
+            counter++;
         }
 
-        Transform right = transform.Find("Right");
         if (right != null && right.gameObject.activeSelf)
         {
-            platformWalls.right = right;
-            activeWalls.Add(platformWalls.right != null);
+            counter++;
         }
 
-        Transform top = transform.Find("Top");
         if (top != null && top.gameObject.activeSelf)
         {
-            platformWalls.top = top;
-            activeWalls.Add(platformWalls.top != null);
+            counter++;
         }
 
-        Transform bottom = transform.Find("Bottom");
         if (bottom != null && bottom.gameObject.activeSelf)
         {
-            platformWalls.bottom = bottom;
-            activeWalls.Add(platformWalls.bottom != null);
+            counter++;
         }
 
-        return activeWalls.Count;
+        return counter;
     }
 
-    public void SetupSpawnLocations()
+    private void SetupSpawnLocations()
     {
-        if (platformWalls.left)
-        {
-            AddSpawnLocations(platformWalls.left, "WallSpawnLeft", "FloorSpawnLeft");
-        }
+        AddSpawnLocations(left, "WallSpawnLeft", "FloorSpawnLeft");
+        AddSpawnLocations(right, "WallSpawnRight", "FloorSpawnRight");
+        AddSpawnLocations(top, "WallSpawnTop", "FloorSpawnTop");
+        AddSpawnLocations(bottom, "WallSpawnBottom", "FloorSpawnBottom");
+    }
 
-        if (platformWalls.right)
+    private void AddSpawnLocations(Transform wall, string wallSpawnName, string floorSpawnName)
+    {
+        if (wall.gameObject.activeSelf)
         {
-            AddSpawnLocations(platformWalls.right, "WallSpawnRight", "FloorSpawnRight");
-        }
+            Transform wallSpawn = wall.Find(wallSpawnName);
+            Transform floorSpawn = wall.Find(floorSpawnName);
 
-        if (platformWalls.top)
-        {
-            AddSpawnLocations(platformWalls.top, "WallSpawnTop", "FloorSpawnTop");
-        }
-
-        if (platformWalls.bottom)
-        {
-            AddSpawnLocations(platformWalls.bottom, "WallSpawnBottom", "FloorSpawnBottom");
+            if (wallSpawn != null && floorSpawn != null)
+            {
+                wallSpawnLocations.Add(wallSpawn);
+                floorSpawnLocations.Add(floorSpawn);
+            }
         }
     }
 
-    private void AddSpawnLocations(Transform wall, string wallName, string floorName)
+    private bool IsWallActive(WallName name)
     {
-        Transform wallSpawn = wall.Find(wallName);
-        Transform floorSpawn = wall.Find(floorName);
-
-        if (wallSpawn != null && floorSpawn != null)
+        return name switch
         {
-            wallSpawnLocations.Add(wallSpawn);
-            floorSpawnLocations.Add(floorSpawn);
+            WallName.Left => left && left.gameObject.activeSelf,
+            WallName.Right => right && right.gameObject.activeSelf,
+            WallName.Bottom => bottom && bottom.gameObject.activeSelf,
+            WallName.Top => top && top.gameObject.activeSelf,
+            _ => false,
+        };
+    }
+
+
+    private void AddPillars()
+    {
+        int activeWallsCount = GetActiveWallCount();
+        Debug.Log(activeWallsCount);
+        if (activeWallsCount < 2)
+        {
+            if (!IsWallActive(WallName.Bottom))
+            {
+                bottomGate.gameObject.SetActive(true);
+            }
+            if (!IsWallActive(WallName.Top))
+            {
+                topGate.gameObject.SetActive(true);
+            }
+            if (!IsWallActive(WallName.Left))
+            {
+                leftGate.gameObject.SetActive(true);
+            }
+            if (!IsWallActive(WallName.Right))
+            {
+                rightGate.gameObject.SetActive(true);
+            }
         }
+    }
+
+    private void HideGates()
+    {
+        bottomGate.gameObject.SetActive(false);
+        topGate.gameObject.SetActive(false);
+        leftGate.gameObject.SetActive(false);
+        rightGate.gameObject.SetActive(false);
     }
 }

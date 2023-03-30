@@ -4,56 +4,110 @@ using UnityEngine;
 
 public class LevelGenerator : MonoBehaviour
 {
-    List<GameObject> initializedCells;
-    //Ide egy listaval celszerubb lesz majd behuzni mindent, akar kategoriakra bontva
-    public GameObject torchPrefab;
-    public GameObject chestPrefab;
-    public GameObject chairPrefab;
-    public GameObject exitPrefab;
+    [SerializeField] private GameObject torchPrefab;
+    [SerializeField] private GameObject chestPrefab;
+    [SerializeField] private GameObject chairPrefab;
+    [SerializeField] private GameObject exitPrefab;
 
-    void Start()
+    [Range(0f, 100f)] [SerializeField] private float chestSpawnChance;
+    [Range(0f, 100f)] [SerializeField] private float lightSpawnChance;
+
+    private List<GameObject> initializedCells;
+
+    private void Start()
     {
         StartCoroutine(WaitForMapGeneration());
     }
 
-    IEnumerator WaitForMapGeneration()
+    private IEnumerator WaitForMapGeneration()
     {
-        yield return new WaitUntil(() => GameManager.Instance.GetInitializedCells().Count > 0);
+        yield return new WaitUntil(() => GameManager.Instance.IsMapInitialized());
+        initializedCells = GameManager.Instance.GetInitializedCells();
         PopulateMaze();
     }
 
-    public void PopulateMaze()
+    private void PopulateMaze()
     {
-        initializedCells = GameManager.Instance.GetInitializedCells();
         foreach (GameObject platform in initializedCells)
         {
+            Platform platformComponent = platform.GetComponent<Platform>();
+            List<Transform> floorSpawns = platformComponent.floorSpawnLocations;
+            List<Transform> wallSpawns = platformComponent.wallSpawnLocations;
+
             if (platform.CompareTag("ExitCell"))
             {
-                Transform location = platform.GetComponent<Platform>().floorSpawnLocations[0];
-                Instantiate(exitPrefab, location.position, exitPrefab.transform.rotation);
+                SpawnDeadEndObject(exitPrefab, platformComponent);
             }
             else
             {
-                foreach (Transform location in platform.GetComponent<Platform>().floorSpawnLocations)
+                if (floorSpawns.Count == 3 && wallSpawns.Count == 3)
                 {
-                    if (SpawnWithChance(77))
+                    if (SpawnWithChance(chestSpawnChance))
                     {
-                        Instantiate(chestPrefab, location.position, chestPrefab.transform.rotation);
+                        SpawnDeadEndObject(chestPrefab, platformComponent);
+                    }
+                    else if (SpawnWithChance(lightSpawnChance))
+                    {
+                        SpawnDeadEndObject(torchPrefab, platformComponent);
                     }
                 }
-                foreach (Transform location in platform.GetComponent<Platform>().wallSpawnLocations)
+                else
                 {
-                    if (SpawnWithChance(88))
+                    foreach (Transform location in floorSpawns)
                     {
-                        //Instantiate(torchPrefab, location.position, torchPrefab.transform.rotation);
+                        if (SpawnWithChance(chestSpawnChance))
+                        {
+                            //Instantiate(chestPrefab, location.position, location.rotation);
+                        }
+                    }
+                    foreach (Transform location in wallSpawns)
+                    {
+                        if (SpawnWithChance(lightSpawnChance))
+                        {
+                            //Instantiate(torchPrefab, location.position, location.rotation);
+                        }
                     }
                 }
             }
         }
     }
 
-    public bool SpawnWithChance(int chance)
+    private void SpawnDeadEndObject(GameObject prefab, Platform platform)
     {
-        return Random.Range(0, 100) >= chance ? true : false;
+        string spawnTag = FindDeadEndObjectPlacement(platform);
+
+        foreach (Transform floorSpawn in platform.floorSpawnLocations)
+        {
+            if (floorSpawn.CompareTag(spawnTag))
+            {
+                Instantiate(prefab, floorSpawn.position, floorSpawn.rotation);
+            }
+        }
+    }
+
+    private string FindDeadEndObjectPlacement(Platform platform)
+    {
+        if (!platform.left.gameObject.activeSelf)
+        {
+            return "RightSpawn";
+        }
+        if (!platform.right.gameObject.activeSelf)
+        {
+            return "LeftSpawn";
+        }
+        if (!platform.top.gameObject.activeSelf)
+        {
+            return "BottomSpawn";
+        }
+        if (!platform.bottom.gameObject.activeSelf)
+        {
+            return "TopSpawn";
+        }
+        return "";
+    }
+
+    private bool SpawnWithChance(float chance)
+    {
+        return Random.Range(0, 100) <= chance;
     }
 }

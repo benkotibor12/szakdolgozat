@@ -15,7 +15,10 @@ public class PlayerHand : MonoBehaviour
         IInventoryItem item = e.Item;
         GameObject itemAsGameObject = (item as MonoBehaviour).gameObject;
         itemAsGameObject.SetActive(true);
-        itemAsGameObject.transform.parent = transform;
-        itemAsGameObject.transform.position = transform.position;
+        itemAsGameObject.transform.SetParent(transform, true);
+        itemAsGameObject.transform.localPosition = (item as Equipment).PickUpPosition;
+        itemAsGameObject.transform.localEulerAngles = (item as Equipment).PickUpRotation;
+        itemAsGameObject.transform.localScale = (item as Equipment).PickUpScale;
+
     }
 }
