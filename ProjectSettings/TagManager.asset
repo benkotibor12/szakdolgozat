@@ -6,6 +6,10 @@ TagManager:
   tags:
   - ExitCell
   - StartingCell
+  - LeftSpawn
+  - RightSpawn
+  - TopSpawn
+  - BottomSpawn
   layers:
   - Default
   - TransparentFX

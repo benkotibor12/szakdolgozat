@@ -34,7 +34,8 @@ public class MapGenerator : MonoBehaviour
 
     private void InitializeMaze()
     {
-        float offset = floor.transform.localScale.x * platformPrefab.transform.localScale.x;
+        float offsetX = floor.transform.localScale.x * platformPrefab.transform.localScale.x;
+        float offsetZ = floor.transform.localScale.z * platformPrefab.transform.localScale.z;
 
         for (int i = 0; i < GameManager.Instance.MazeWidth; i++)
         {
@@ -43,7 +44,7 @@ public class MapGenerator : MonoBehaviour
                 UpdateWallState(i, j);
                 UpdatePlatformUI(i, j);
 
-                GameObject prefabInstance = Instantiate(platformPrefab, new Vector3(i * offset, 0, j * offset), platformPrefab.transform.rotation);
+                GameObject prefabInstance = Instantiate(platformPrefab, new Vector3(i * offsetZ, 0, j * offsetX), platformPrefab.transform.rotation);
 
                 if (maze.startX == i && maze.startY == j)
                 {
@@ -62,6 +63,7 @@ public class MapGenerator : MonoBehaviour
             }
         }
     }
+
     private void UpdateWallState(int i, int j)
     {
         if (!maze.board.grid[i, j].walls.left)
@@ -93,6 +95,7 @@ public class MapGenerator : MonoBehaviour
             platformUI.UpdateText("");
         }
     }
+
     public void ResetPrefab(GameObject prefab)
     {
         foreach (Transform child in prefab.transform)

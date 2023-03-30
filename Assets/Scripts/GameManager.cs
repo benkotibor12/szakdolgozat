@@ -74,4 +74,9 @@ public class GameManager : MonoBehaviour, IDataPersistence
     {
         gameData.currentScene = CurrentScene;
     }
+
+    public bool IsMapInitialized()
+    {
+        return initializedCells.Count == mazeWidth * mazeHeight;
+    }
 }

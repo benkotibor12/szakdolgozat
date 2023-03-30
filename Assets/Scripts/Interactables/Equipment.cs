@@ -2,9 +2,10 @@ using UnityEngine;
 
 public class Equipment : Interactable, IInventoryItem
 {
-    [SerializeField] private string itemName = "Gun";
-    [SerializeField] private string keybind = "1";
+    [SerializeField] private string itemName;
+    [SerializeField] private string keybind;
     [SerializeField] private Sprite image;
+    [SerializeField] private bool inUse;
 
     public string Name => itemName;
 
@@ -12,10 +13,13 @@ public class Equipment : Interactable, IInventoryItem
 
     public string Keybind => keybind;
 
+    public bool InUse => inUse;
+
     public void OnPickup()
     {
         gameObject.SetActive(false);
         gameObject.layer = 0;
+        inUse = false;
     }
 
     public void OnSelect()
@@ -26,11 +30,18 @@ public class Equipment : Interactable, IInventoryItem
 
     public void OnUse()
     {
-        Debug.Log("vilagitok");
+        inUse = !inUse;
+        transform.Find("Light").gameObject.SetActive(inUse);
     }
 
     protected override void Interact()
     {
         promptMessage.Equals("Collect");
     }
+
+    public Vector3 PickUpPosition;
+
+    public Vector3 PickUpRotation;
+
+    public Vector3 PickUpScale;
 }
