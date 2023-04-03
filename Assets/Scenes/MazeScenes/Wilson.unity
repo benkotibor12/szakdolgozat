@@ -495,7 +495,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 3669213366913364279, guid: 4da7967af5e33254aac45cc19f9a824b, type: 3}
       propertyPath: sounds.Array.size
-      value: 2
+      value: 3
       objectReference: {fileID: 0}
     - target: {fileID: 3669213366913364279, guid: 4da7967af5e33254aac45cc19f9a824b, type: 3}
       propertyPath: sounds.Array.data[0].clip
@@ -522,6 +522,14 @@ PrefabInstance:
       value: ExitSound
       objectReference: {fileID: 0}
     - target: {fileID: 3669213366913364279, guid: 4da7967af5e33254aac45cc19f9a824b, type: 3}
+      propertyPath: sounds.Array.data[2].clip
+      value: 
+      objectReference: {fileID: 8300000, guid: 7af6260519d9fe343af2744b0c455937, type: 3}
+    - target: {fileID: 3669213366913364279, guid: 4da7967af5e33254aac45cc19f9a824b, type: 3}
+      propertyPath: sounds.Array.data[2].name
+      value: OldDoor
+      objectReference: {fileID: 0}
+    - target: {fileID: 3669213366913364279, guid: 4da7967af5e33254aac45cc19f9a824b, type: 3}
       propertyPath: sounds.Array.data[0].pitch
       value: 1
       objectReference: {fileID: 0}
@@ -530,11 +538,19 @@ PrefabInstance:
       value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 3669213366913364279, guid: 4da7967af5e33254aac45cc19f9a824b, type: 3}
+      propertyPath: sounds.Array.data[2].pitch
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 3669213366913364279, guid: 4da7967af5e33254aac45cc19f9a824b, type: 3}
       propertyPath: sounds.Array.data[0].volume
       value: 0.15
       objectReference: {fileID: 0}
     - target: {fileID: 3669213366913364279, guid: 4da7967af5e33254aac45cc19f9a824b, type: 3}
       propertyPath: sounds.Array.data[1].volume
+      value: 0.371
+      objectReference: {fileID: 0}
+    - target: {fileID: 3669213366913364279, guid: 4da7967af5e33254aac45cc19f9a824b, type: 3}
+      propertyPath: sounds.Array.data[2].volume
       value: 0.371
       objectReference: {fileID: 0}
     m_RemovedComponents: []
@@ -655,6 +671,10 @@ PrefabInstance:
       propertyPath: LoadingBarFill
       value: 
       objectReference: {fileID: 8888638099575695224}
+    - target: {fileID: 7984508318759145014, guid: 31ddbd612d0f32c4cbbebca1fedc06b2, type: 3}
+      propertyPath: exitPrefab
+      value: 
+      objectReference: {fileID: 5833099698511308764, guid: 6e938cb5f783b3b4cb06ef59119448ef, type: 3}
     - target: {fileID: 7984508318759145014, guid: 31ddbd612d0f32c4cbbebca1fedc06b2, type: 3}
       propertyPath: chestPrefab
       value: 

@@ -80,7 +80,7 @@ public class LevelGenerator : MonoBehaviour
         {
             if (floorSpawn.CompareTag(spawnTag))
             {
-                Instantiate(prefab, floorSpawn.position, floorSpawn.rotation);
+                Instantiate(prefab, floorSpawn.position, floorSpawn.rotation * prefab.transform.rotation);
             }
         }
     }
