@@ -1,6 +1,5 @@
 using System.Collections;
 using UnityEngine;
-using UnityEngine.SceneManagement;
 using UnityEngine.UI;
 
 public class MainMenu : MonoBehaviour, IDataPersistence
@@ -8,10 +7,12 @@ public class MainMenu : MonoBehaviour, IDataPersistence
     public Button newGameButton;
     public Button loadGameButton;
     private string loadedScene = "";
+    private LoadingScene loadingScene;
 
     private void Start()
     {
         StartCoroutine(WaitForLoadingData());
+        loadingScene = GetComponent<LoadingScene>();
     }
 
     IEnumerator WaitForLoadingData()
@@ -32,12 +33,12 @@ public class MainMenu : MonoBehaviour, IDataPersistence
 
     public void PlayGame()
     {
-        SceneManager.LoadScene(SceneManager.GetActiveScene().buildIndex + 1);
+        loadingScene.LoadScene("Wilson");
     }
 
     public void LoadGame()
     {
-        SceneManager.LoadScene(loadedScene);
+        loadingScene.LoadScene(loadedScene);
     }
 
     public void QuitGame()

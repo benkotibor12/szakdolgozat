@@ -8,7 +8,7 @@ public class OpenDoor : Interactable
 
     private void Start()
     {
-        doorAnimator = GetComponent<Animator>();
+        doorAnimator = GetComponentInChildren<Animator>();
         sceneName = GameManager.Instance.NextScene;
     }
 
