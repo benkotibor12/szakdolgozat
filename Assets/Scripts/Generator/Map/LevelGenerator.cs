@@ -14,8 +14,7 @@ public class LevelGenerator : MonoBehaviour
     [SerializeField] private GameObject chestPrefab;
     [SerializeField] private GameObject chairPrefab;
     [SerializeField] private GameObject exitPrefab;
-    [SerializeField] private GameObject[] exitSwitchPrefabs;
-    [SerializeField] private int exitObjectCount;
+    [SerializeField] private List<GameObject> exitSwitchPrefabs;
 
     [Range(0f, 100f)] [SerializeField] private float chestSpawnChance;
     [Range(0f, 100f)] [SerializeField] private float lightSpawnChance;
@@ -26,14 +25,13 @@ public class LevelGenerator : MonoBehaviour
     private void Start()
     {
         StartCoroutine(WaitForMapGeneration());
-        exitObjectCount = exitSwitchPrefabs.Length;
     }
 
     private IEnumerator WaitForMapGeneration()
     {
         yield return new WaitUntil(() => GameManager.Instance.IsMapInitialized());
         initializedCells = GameManager.Instance.GetInitializedCells();
-        deadEndPlatforms = new();
+        deadEndPlatforms = new List<Platform>();
         FindDeadEnds();
         SetupExit();
         PopulateMaze();
@@ -58,15 +56,17 @@ public class LevelGenerator : MonoBehaviour
             if (platform.gameObject.CompareTag("ExitCell"))
             {
                 SpawnDeadEndObject(exitPrefab, platform, Spawn.Floor);
+                break;
             }
         }
 
-        while (exitObjectCount > 0)
+
+        while (exitSwitchPrefabs.Count > 0)
         {
-            exitObjectCount -= 1;
-            ExitSwitch currentExitobject = exitSwitchPrefabs[exitObjectCount].GetComponent<ExitSwitch>();
-            currentExitobject.buttonId = exitObjectCount;
-            SpawnDeadEndObject(exitSwitchPrefabs[exitObjectCount], deadEndPlatforms[Random.Range(0, deadEndPlatforms.Count)], Spawn.Wall);
+            ExitSwitch currentExitObject = exitSwitchPrefabs[^1].GetComponent<ExitSwitch>();
+            currentExitObject.buttonId = exitSwitchPrefabs.Count - 1;
+            SpawnDeadEndObject(exitSwitchPrefabs[^1], deadEndPlatforms[Random.Range(0, deadEndPlatforms.Count)], Spawn.Wall);
+            exitSwitchPrefabs.Remove(exitSwitchPrefabs[^1]);
         }
     }
 
@@ -80,8 +80,6 @@ public class LevelGenerator : MonoBehaviour
         foreach (GameObject cell in initializedCells)
         {
             Platform platform = cell.GetComponent<Platform>();
-            List<Transform> floorSpawns = platform.floorSpawnLocations;
-            List<Transform> wallSpawns = platform.wallSpawnLocations;
 
             if (SpawnWithChance(chestSpawnChance))
             {
@@ -90,24 +88,6 @@ public class LevelGenerator : MonoBehaviour
             else if (SpawnWithChance(lightSpawnChance))
             {
                 SpawnDeadEndObject(torchPrefab, platform, Spawn.Floor);
-            }
-
-            else
-            {
-                foreach (Transform location in floorSpawns)
-                {
-                    if (SpawnWithChance(chestSpawnChance))
-                    {
-                        //Instantiate(chestPrefab, location.position, location.rotation);
-                    }
-                }
-                foreach (Transform location in wallSpawns)
-                {
-                    if (SpawnWithChance(lightSpawnChance))
-                    {
-                        //Instantiate(torchPrefab, location.position, location.rotation);
-                    }
-                }
             }
         }
     }
@@ -138,6 +118,8 @@ public class LevelGenerator : MonoBehaviour
                                 break;
                             }
                         }
+                        //Remove from dead end list
+                        deadEndPlatforms.Remove(platform);
                     }
                 }
             }
@@ -160,11 +142,12 @@ public class LevelGenerator : MonoBehaviour
                             }
                         }
                     }
+                    //Remove from dead end list
+                    deadEndPlatforms.Remove(platform);
                 }
             }
         }
     }
-
 
 
     private string FindDeadEndObjectPlacement(Platform platform)

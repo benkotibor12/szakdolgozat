@@ -207,6 +207,10 @@ PrefabInstance:
       value: 
       objectReference: {fileID: 5919282313830343951}
     - target: {fileID: 7984508318759145014, guid: 31ddbd612d0f32c4cbbebca1fedc06b2, type: 3}
+      propertyPath: exitPrefab
+      value: 
+      objectReference: {fileID: 5833099698511308764, guid: 6e938cb5f783b3b4cb06ef59119448ef, type: 3}
+    - target: {fileID: 7984508318759145014, guid: 31ddbd612d0f32c4cbbebca1fedc06b2, type: 3}
       propertyPath: chestPrefab
       value: 
       objectReference: {fileID: 5051042989036186370, guid: 683cd17b0dfb2534a821b12f888e0966, type: 3}

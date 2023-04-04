@@ -477,7 +477,7 @@ PrefabInstance:
       objectReference: {fileID: 2902476013983808941, guid: 392c51f035045f542921575c8e4a68b4, type: 3}
     - target: {fileID: 7984508318759145014, guid: 31ddbd612d0f32c4cbbebca1fedc06b2, type: 3}
       propertyPath: chestSpawnChance
-      value: 83
+      value: 18
       objectReference: {fileID: 0}
     - target: {fileID: 7984508318759145014, guid: 31ddbd612d0f32c4cbbebca1fedc06b2, type: 3}
       propertyPath: lightSpawnChance
