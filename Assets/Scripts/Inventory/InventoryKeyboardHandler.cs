@@ -19,7 +19,6 @@ public class InventoryKeyboardHandler : MonoBehaviour
             string input = inputManager.onFoot.Inventory.activeControl.name;
             if (int.TryParse(input, out int inputNum) && inputNum >= 1 && inputNum <= 8)
             {
-                Debug.Log(inputNum);
                 item = inventory.GetItem(input);
                 inventory.SelectItem(item);
             }

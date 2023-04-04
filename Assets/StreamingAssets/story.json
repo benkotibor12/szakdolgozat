@@ -16,6 +16,11 @@
       "dialogue": "first dialogue"
     },
     {
+      "scene": "LootBattery",
+      "name": "Loot",
+      "dialogue": "you have picked up a battery"
+    },
+    {
       "scene": "Second Scene",
       "name": "Beta",
       "dialogue": "second dialogue"

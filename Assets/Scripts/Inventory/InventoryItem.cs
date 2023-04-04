@@ -5,6 +5,9 @@ public interface IInventoryItem
     string Name { get; }
     string Keybind { get; }
     Sprite Image { get; }
+    Vector3 PickUpPosition { get; }
+    Vector3 PickUpRotation { get; }
+    Vector3 PickUpScale { get; }
     bool InUse { get; }
     void OnPickup();
     void OnSelect();

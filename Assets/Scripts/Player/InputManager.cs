@@ -7,7 +7,7 @@ public class InputManager : MonoBehaviour
 
     private PlayerMotor motor;
     private PlayerLook look;
-    private Animator playerAnimator;
+    //private Animator playerAnimator;
 
     void Awake()
     {
@@ -15,11 +15,11 @@ public class InputManager : MonoBehaviour
         onFoot = playerInput.OnFoot;
         motor = GetComponent<PlayerMotor>();
         look = GetComponent<PlayerLook>();
-        playerAnimator = GetComponent<Animator>();
+        //playerAnimator = GetComponent<Animator>();
         onFoot.Jump.performed += ctx =>
         {
             motor.Jump();
-            playerAnimator.SetBool("isJumping", true);
+            //playerAnimator.SetBool("isJumping", true);
         };
     }
 
@@ -29,11 +29,11 @@ public class InputManager : MonoBehaviour
 
         if (onFoot.Movement.IsPressed())
         {
-            playerAnimator.SetBool("isWalking", true);
+            //playerAnimator.SetBool("isWalking", true);
         }
         if (!onFoot.Movement.IsPressed())
         {
-            playerAnimator.SetBool("isWalking", false);
+            //playerAnimator.SetBool("isWalking", false);
         }        
     }
 

@@ -4,6 +4,7 @@ using UnityEngine;
 
 public class Inventory : MonoBehaviour
 {
+    public GameObject permanentItem;
     private const int SLOTS = 8;
     private List<IInventoryItem> items = new();
     private IInventoryItem selectedItem;
@@ -11,6 +12,12 @@ public class Inventory : MonoBehaviour
     public event EventHandler<InventoryEventArgs> ItemRemoved;
     public event EventHandler<InventoryEventArgs> ItemUsed;
     public event EventHandler<InventoryEventArgs> ItemSelected;
+
+    private void Start()
+    {
+        GameObject flashlight = Instantiate(permanentItem, Vector3.zero, Quaternion.identity);
+        AddItem(flashlight.GetComponent<IInventoryItem>());
+    }
 
     public void AddItem(IInventoryItem item)
     {

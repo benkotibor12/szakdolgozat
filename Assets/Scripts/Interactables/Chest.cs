@@ -1,10 +1,11 @@
 using UnityEngine;
 using System.Collections;
+using System.Collections.Generic;
 
 public class Chest : Interactable
 {
 
-    public GameObject loot;
+    public List<GameObject> loots;
     public float closeTime;
     private Transform lootDropPoint;
     private bool opened = false;
@@ -19,10 +20,10 @@ public class Chest : Interactable
         if (opened == false)
         {
             GetComponent<Animator>().SetBool("isOpened", !opened);
-            if (loot != null)
+            if (loots.Count > 0)
             {
-                Instantiate(loot, lootDropPoint.position, transform.rotation);
-                loot = null;
+                Instantiate(loots[Random.Range(0, loots.Count)], lootDropPoint.position, transform.rotation);
+                loots = new();
             }
             StartCoroutine(CloseChestAfter(closeTime));
         }
