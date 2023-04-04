@@ -5,8 +5,9 @@ using UnityEngine.UI;
 
 public class LoadingScene : MonoBehaviour
 {
-    public GameObject LoadingScreen;
-    public Image LoadingBarFill;
+    public GameObject loadingScreen;
+    public Slider loadingSlider;
+    public float delayTime = 5f;
 
     public void LoadScene(string sceneName)
     {
@@ -16,27 +17,25 @@ public class LoadingScene : MonoBehaviour
     private IEnumerator LoadSceneAsync(string sceneName)
     {
         AsyncOperation operation = SceneManager.LoadSceneAsync(sceneName);
-        //LoadingScreen.SetActive(true);
+        operation.allowSceneActivation = false;
 
-        float timeout = 10f;
+        loadingScreen.SetActive(true);
+
         float elapsedTime = 0f;
 
-        while (!operation.isDone && elapsedTime < timeout)
+        while (!operation.isDone)
         {
-            float progress = Mathf.Clamp01(operation.progress / 0.9f);
-            //LoadingBarFill.fillAmount = progress;
             elapsedTime += Time.deltaTime;
-            yield return new WaitForEndOfFrame();
+            float progress = Mathf.Clamp01(elapsedTime / delayTime);
+            loadingSlider.value = progress;
+
+            if (progress == 1f)
+            {
+                loadingScreen.SetActive(false);
+                operation.allowSceneActivation = true;
+            }
+            yield return null;
         }
 
-        if (elapsedTime >= timeout)
-        {
-            Debug.LogError("Loading operation timed out.");
-
-            //LoadingScreen.SetActive(false);
-            yield break; // exit the coroutine
-        }
-
-        operation.allowSceneActivation = true; // set to true when the scene is fully loaded
     }
 }

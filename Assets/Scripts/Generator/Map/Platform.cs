@@ -102,7 +102,6 @@ public class Platform : MonoBehaviour
     private void AddPillars()
     {
         int activeWallsCount = GetActiveWallCount();
-        Debug.Log(activeWallsCount);
         if (activeWallsCount < 2)
         {
             if (!IsWallActive(WallName.Bottom))
