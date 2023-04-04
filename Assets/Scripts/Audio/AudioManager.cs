@@ -10,7 +10,6 @@ public class AudioManager : MonoBehaviour
     private void Awake()
     {
         Instance = this;
-        DontDestroyOnLoad(gameObject);
 
         foreach (Sound sound in sounds)
         {

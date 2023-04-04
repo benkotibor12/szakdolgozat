@@ -4,7 +4,7 @@ using UnityEngine;
 public class PlayerMotor : MonoBehaviour
 {
     private CharacterController controller;
-    private Animator playerAnimator;
+    //private Animator playerAnimator;
     private Vector3 playerVelocity;
     private bool isGrounded;
     public float speed = 5f;
@@ -14,7 +14,7 @@ public class PlayerMotor : MonoBehaviour
     void Start()
     {
         controller = GetComponent<CharacterController>();
-        playerAnimator = GetComponent<Animator>();
+        //playerAnimator = GetComponent<Animator>();
         StartCoroutine(WaitForMapGeneration());
     }
 
@@ -28,7 +28,7 @@ public class PlayerMotor : MonoBehaviour
     void Update()
     {
         isGrounded = controller.isGrounded;
-        playerAnimator.SetFloat("jumpVelocity", playerVelocity.y);
+        //playerAnimator.SetFloat("jumpVelocity", playerVelocity.y);
     }
 
     public void ProcessMove(Vector2 input)
@@ -41,15 +41,14 @@ public class PlayerMotor : MonoBehaviour
         if (isGrounded && playerVelocity.y < 0)
         {
             playerVelocity.y = -3f;
-            playerAnimator.SetBool("isJumping", false);
-
+            //playerAnimator.SetBool("isJumping", false);
         }
         controller.Move(playerVelocity * Time.deltaTime);
     }
 
     public void Jump()
     {
-        playerAnimator.SetBool("isJumping", true);
+        //playerAnimator.SetBool("isJumping", true);
         if (isGrounded)
         {
             playerVelocity.y = Mathf.Sqrt(jumpHeight * -3.0f * gravity);

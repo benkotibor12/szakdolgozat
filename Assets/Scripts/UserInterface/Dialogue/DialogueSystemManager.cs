@@ -39,7 +39,6 @@ public class DialogueSystemManager : MonoBehaviour
         if (instance == null)
         {
             instance = this;
-            DontDestroyOnLoad(gameObject);
         }
         else
         {
@@ -75,7 +74,7 @@ public class DialogueSystemManager : MonoBehaviour
     {
         if (inputManager.onFoot.Skip.triggered)
         {
-            StartCoroutine(DisplayDialogue(GetDialogue("First Scene"), typingSpeed, responseSpeed, readingSpeed));
+            //StartCoroutine(DisplayDialogue(GetDialogue("First Scene"), typingSpeed, responseSpeed, readingSpeed));
         }
     }
 
