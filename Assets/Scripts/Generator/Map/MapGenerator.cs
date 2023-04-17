@@ -5,9 +5,9 @@ public class MapGenerator : MonoBehaviour
 {
     public GameObject platformPrefab;
     public bool debugMode = false;
+    [HideInInspector] public Maze maze;
+    [HideInInspector] public GameObject left, right, top, bottom, floor;
     private PlatformUI platformUI;
-    private GameObject left, right, top, bottom, floor;
-    private Maze maze;
 
     private void Start()
     {
@@ -17,13 +17,13 @@ public class MapGenerator : MonoBehaviour
         InitializeMaze();
     }
 
-    private void GenerateMaze()
+    public void GenerateMaze()
     {
         maze = new Maze(GameManager.Instance.MazeWidth, GameManager.Instance.MazeHeight);
         maze.Generate(GameManager.Instance.MazeGenerationMethod);
     }
 
-    private void SetupPrefab()
+    public void SetupPrefab()
     {
         left = platformPrefab.transform.Find("Left").gameObject;
         right = platformPrefab.transform.Find("Right").gameObject;
@@ -32,7 +32,7 @@ public class MapGenerator : MonoBehaviour
         floor = platformPrefab.transform.Find("Floor").gameObject;
     }
 
-    private void InitializeMaze()
+    public void InitializeMaze()
     {
         float offsetX = floor.transform.localScale.x * platformPrefab.transform.localScale.x;
         float offsetZ = floor.transform.localScale.z * platformPrefab.transform.localScale.z;
