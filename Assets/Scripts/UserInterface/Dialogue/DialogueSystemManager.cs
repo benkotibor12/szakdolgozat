@@ -50,6 +50,12 @@ public class DialogueSystemManager : MonoBehaviour
     public Image dialogueBoxBackground;
     public int dialogueBoxOffsetX;
     public int dialogueBoxOffsetY;
+
+    public TextMeshProUGUI questText;
+    public Image questBoxBackground;
+    public int questBoxOffsetX;
+    public int questBoxOffsetY;
+
     public float typingSpeed;
     public float readingSpeed;
     public float responseSpeed;
@@ -57,6 +63,10 @@ public class DialogueSystemManager : MonoBehaviour
 
     private RectTransform textTransform;
     private RectTransform dialogueBoxBackgroundTransform;
+
+    private RectTransform questTextTransform;
+    private RectTransform questBoxBackgroundTransform;
+
     private int currentIndex;
     private InputManager inputManager;
     private List<Scenes> scenesList;
@@ -67,15 +77,12 @@ public class DialogueSystemManager : MonoBehaviour
         dialogueBoxBackgroundTransform = dialogueBoxBackground.GetComponent<RectTransform>();
         textTransform = storyText.GetComponent<RectTransform>();
         dialogueBoxBackgroundTransform.anchoredPosition = new Vector2(textTransform.anchoredPosition.x + dialogueBoxOffsetX, textTransform.anchoredPosition.y + dialogueBoxOffsetY);
-        LoadStories("story.json");
-    }
 
-    private void Update()
-    {
-        if (inputManager.onFoot.Skip.triggered)
-        {
-            //StartCoroutine(DisplayDialogue(GetDialogue("First Scene"), typingSpeed, responseSpeed, readingSpeed));
-        }
+        questBoxBackgroundTransform = questBoxBackground.GetComponent<RectTransform>();
+        questTextTransform = questText.GetComponent<RectTransform>();
+        questBoxBackgroundTransform.anchoredPosition = new Vector2(questTextTransform.anchoredPosition.x + questBoxOffsetX, questTextTransform.anchoredPosition.y + questBoxOffsetY);
+
+        LoadStories("story.json");
     }
 
     private void LoadStories(string fileName)
@@ -116,7 +123,7 @@ public class DialogueSystemManager : MonoBehaviour
         }
     }
 
-    public IEnumerator DisplayDialogue(List<string> dialogues, float typingSpeed, float responseSpeed, float readingSpeed)
+    public IEnumerator DisplayDialogue(List<string> dialogues, float typingSpeed, float responseSpeed, float readingSpeed, bool isQuest = false)
     {
         foreach (string dialogue in dialogues)
         {
@@ -134,22 +141,45 @@ public class DialogueSystemManager : MonoBehaviour
 
             string dialogueWithoutName = dialogue.Replace(name, "");
             string[] sentences = dialogueWithoutName.Split("\n");
-            dialogueBoxBackground.enabled = true;
-            foreach (string sentence in sentences)
+
+            if (!isQuest)
             {
-                storyText.text = name;
-                foreach (char letter in sentence)
+                dialogueBoxBackground.enabled = true;
+                foreach (string sentence in sentences)
                 {
-                    storyText.text += letter;
-                    dialogueBoxBackgroundTransform.sizeDelta = new Vector2(storyText.preferredWidth, dialogueBoxBackgroundTransform.sizeDelta.y);
-                    yield return new WaitForSeconds(typingSpeed);
+                    storyText.text = name;
+                    foreach (char letter in sentence)
+                    {
+                        storyText.text += letter;
+                        dialogueBoxBackgroundTransform.sizeDelta = new Vector2(storyText.preferredWidth, dialogueBoxBackgroundTransform.sizeDelta.y);
+                        yield return new WaitForSeconds(typingSpeed);
+                    }
+                    yield return new WaitForSeconds(readingSpeed);
                 }
-                yield return new WaitForSeconds(readingSpeed);
+                yield return new WaitForSeconds(responseSpeed);
+                storyText.text = "";
+                dialogueBoxBackground.enabled = false;
             }
-            yield return new WaitForSeconds(responseSpeed);
+            else
+            {
+                questBoxBackground.enabled = true;
+                foreach (string sentence in sentences)
+                {
+                    questText.text = name;
+                    foreach (char letter in sentence)
+                    {
+                        questText.text += letter;
+                        questBoxBackgroundTransform.sizeDelta = new Vector2(questText.preferredWidth, questBoxBackgroundTransform.sizeDelta.y);
+                        yield return new WaitForSeconds(typingSpeed);
+                    }
+                    yield return new WaitForSeconds(readingSpeed);
+                }
+                yield return new WaitForSeconds(responseSpeed);
+                questText.text = "";
+                questBoxBackground.enabled = false;
+            }
         }
-        storyText.text = "";
-        dialogueBoxBackground.enabled = false;
+
     }
 
     public List<string> GetDialogue(string sceneName)
