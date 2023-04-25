@@ -22,6 +22,7 @@ public class GameManager : MonoBehaviour, IDataPersistence
 
     private List<GameObject> initializedCells = new();
     private LoadingScene loadingScene;
+    private float brightness;
 
     private void Awake()
     {
@@ -33,6 +34,8 @@ public class GameManager : MonoBehaviour, IDataPersistence
         loadingScene = GetComponent<LoadingScene>();
         CurrentScene = SceneManager.GetActiveScene().name;
         InitScene(CurrentScene);
+        RenderSettings.ambientLight = RenderSettings.ambientLight * brightness;
+
     }
 
     public void LoadScene(string sceneName)
@@ -68,6 +71,7 @@ public class GameManager : MonoBehaviour, IDataPersistence
     public void LoadData(GameData gameData)
     {
         CurrentScene = gameData.currentScene;
+        brightness = gameData.brightness;
     }
 
     public void SaveData(ref GameData gameData)

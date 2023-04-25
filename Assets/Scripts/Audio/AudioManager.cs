@@ -1,7 +1,7 @@
 using UnityEngine;
 using System;
 
-public class AudioManager : MonoBehaviour
+public class AudioManager : MonoBehaviour, IDataPersistence
 {
     public Sound[] sounds;
 
@@ -34,5 +34,15 @@ public class AudioManager : MonoBehaviour
             Debug.LogWarning("Can't find audio file named: " + name);
         }
         sound?.source.Play();
+    }
+
+    public void LoadData(GameData gameData)
+    {
+        AudioListener.volume = gameData.audioVolume;
+    }
+
+    public void SaveData(ref GameData gameData)
+    {
+        //
     }
 }
