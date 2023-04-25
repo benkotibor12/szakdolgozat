@@ -16,6 +16,9 @@ public class SettingsController : MonoBehaviour, IDataPersistence
     [SerializeField] private TextMeshProUGUI brightnessTextValue;
     [SerializeField] private Slider brightnessSlider;
 
+    [SerializeField] private TMP_Dropdown graphicsQualityDropdown;
+    [SerializeField] private Toggle fullScreenToggle;
+
     [SerializeField] private TMP_Dropdown resolutionDropdown;
     private Resolution[] resolutions;
 
@@ -86,7 +89,7 @@ public class SettingsController : MonoBehaviour, IDataPersistence
     public void SetBrightness(float brightness)
     {
         brightnessValue = brightness;
-        brightnessTextValue.text = brightness.ToString("0");
+        brightnessTextValue.text = Mathf.Round(brightness*100).ToString("0");
     }
 
     public void SetFullScreen(bool fullscreen)
@@ -108,6 +111,11 @@ public class SettingsController : MonoBehaviour, IDataPersistence
         verticalSensitivitySlider.value = gameData.verticalSensitivity;
         horizontalSensitivityTextValue.text = gameData.horizontalSensitivity.ToString("0");
         horizontalSensitivitySlider.value = gameData.horizontalSensitivity;
+        brightnessTextValue.text = Mathf.Round(gameData.brightness * 100).ToString("0");
+        brightnessSlider.value = gameData.brightness;
+        resolutionDropdown.value = gameData.resolution;
+        graphicsQualityDropdown.value = gameData.quaility;
+        fullScreenToggle.isOn = gameData.isFullScreen;
     }
 
     public void SaveData(ref GameData gameData)
