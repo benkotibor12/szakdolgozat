@@ -43,7 +43,11 @@ public class MainMenu : MonoBehaviour, IDataPersistence
 
     public void QuitGame()
     {
-        Application.Quit();
+        #if UNITY_EDITOR
+                UnityEditor.EditorApplication.isPlaying = false;
+        #else
+                    Application.Quit();
+        #endif
     }
 
     public void LoadData(GameData gameData)

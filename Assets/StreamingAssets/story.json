@@ -16,7 +16,7 @@
       "dialogue": "Talald meg a kapcsolokat, hogy kijuthass a labirintusbol!"
     },
     {
-      "scene": "RecursiveBacktracker",
+      "scene": "RecursiveBacktracking",
       "name": "<color=yellow>Kuldetes</color>",
       "dialogue": "Talald meg a kapcsolokat, hogy kijuthass a labirintusbol!"
     },

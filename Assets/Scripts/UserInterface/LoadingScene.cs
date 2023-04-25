@@ -28,7 +28,6 @@ public class LoadingScene : MonoBehaviour
             elapsedTime += Time.deltaTime;
             float progress = Mathf.Clamp01(elapsedTime / delayTime);
             loadingSlider.value = progress;
-
             if (progress == 1f)
             {
                 loadingScreen.SetActive(false);

@@ -33,26 +33,29 @@ public class SettingsController : MonoBehaviour, IDataPersistence
 
     private void Start()
     {
-        resolutions = Screen.resolutions;
-        resolutionDropdown.ClearOptions();
-
-        List<string> options = new List<string>();
-
-        int currentResolution = 0;
-        for (int i = 0; i < resolutions.Length; i++)
+        if (resolutionDropdown != null)
         {
-            string option = resolutions[i].width + " x " + resolutions[i].height;
-            options.Add(option);
+            resolutions = Screen.resolutions;
+            resolutionDropdown.ClearOptions();
 
-            if (resolutions[i].width == Screen.width && resolutions[i].height == Screen.height)
+            List<string> options = new List<string>();
+
+            int currentResolution = 0;
+            for (int i = 0; i < resolutions.Length; i++)
             {
-                currentResolution = i;
-            }
-        }
+                string option = resolutions[i].width + " x " + resolutions[i].height;
+                options.Add(option);
 
-        resolutionDropdown.AddOptions(options);
-        resolutionDropdown.value = currentResolution;
-        resolutionDropdown.RefreshShownValue();
+                if (resolutions[i].width == Screen.width && resolutions[i].height == Screen.height)
+                {
+                    currentResolution = i;
+                }
+            }
+
+            resolutionDropdown.AddOptions(options);
+            resolutionDropdown.value = currentResolution;
+            resolutionDropdown.RefreshShownValue();
+        }
     }
 
     public void ApplySettings()
@@ -90,6 +93,7 @@ public class SettingsController : MonoBehaviour, IDataPersistence
     {
         brightnessValue = brightness;
         brightnessTextValue.text = Mathf.Round(brightness*100).ToString("0");
+        RenderSettings.ambientLight *= brightness;
     }
 
     public void SetFullScreen(bool fullscreen)

@@ -134,6 +134,10 @@ PrefabInstance:
       propertyPath: m_Name
       value: QuestText
       objectReference: {fileID: 0}
+    - target: {fileID: 1006359044644711032, guid: 71adb644351b0834ab187baa698d5096, type: 3}
+      propertyPath: m_RootOrder
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 4066206044533341070, guid: 71adb644351b0834ab187baa698d5096, type: 3}
       propertyPath: m_RootOrder
       value: 0
@@ -186,6 +190,10 @@ PrefabInstance:
       propertyPath: mazeGenerationMethod
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 4873369627437736770, guid: 71adb644351b0834ab187baa698d5096, type: 3}
+      propertyPath: m_Name
+      value: Background
+      objectReference: {fileID: 0}
     - target: {fileID: 5311408013902166717, guid: 71adb644351b0834ab187baa698d5096, type: 3}
       propertyPath: questText
       value: 
@@ -194,6 +202,30 @@ PrefabInstance:
       propertyPath: questBoxBackground
       value: 
       objectReference: {fileID: 842135936}
+    - target: {fileID: 6821198856858705435, guid: 71adb644351b0834ab187baa698d5096, type: 3}
+      propertyPath: pauseMenu
+      value: 
+      objectReference: {fileID: 842135938}
+    - target: {fileID: 8064987099846870788, guid: 71adb644351b0834ab187baa698d5096, type: 3}
+      propertyPath: m_RootOrder
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 8064987100484250460, guid: 71adb644351b0834ab187baa698d5096, type: 3}
+      propertyPath: m_RootOrder
+      value: 3
+      objectReference: {fileID: 0}
+    - target: {fileID: 8064987100507509054, guid: 71adb644351b0834ab187baa698d5096, type: 3}
+      propertyPath: m_RootOrder
+      value: 2
+      objectReference: {fileID: 0}
+    - target: {fileID: 8064987101173682133, guid: 71adb644351b0834ab187baa698d5096, type: 3}
+      propertyPath: m_IsActive
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 8064987101670472702, guid: 71adb644351b0834ab187baa698d5096, type: 3}
+      propertyPath: m_RootOrder
+      value: 4
+      objectReference: {fileID: 0}
     - target: {fileID: 8401368083898225136, guid: 71adb644351b0834ab187baa698d5096, type: 3}
       propertyPath: m_AnchorMax.y
       value: 0
@@ -346,3 +378,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: f4688fdb7df04437aeb418b961361dc5, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+--- !u!1 &842135938 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 8064987101173682133, guid: 71adb644351b0834ab187baa698d5096, type: 3}
+  m_PrefabInstance: {fileID: 842135935}
+  m_PrefabAsset: {fileID: 0}

@@ -204,6 +204,10 @@ PrefabInstance:
       propertyPath: m_Name
       value: GameEssentials
       objectReference: {fileID: 0}
+    - target: {fileID: 4873369627437736770, guid: 71adb644351b0834ab187baa698d5096, type: 3}
+      propertyPath: m_Name
+      value: Background
+      objectReference: {fileID: 0}
     - target: {fileID: 5311408013902166717, guid: 71adb644351b0834ab187baa698d5096, type: 3}
       propertyPath: questText
       value: 
@@ -212,6 +216,18 @@ PrefabInstance:
       propertyPath: questBoxBackground
       value: 
       objectReference: {fileID: 714826022}
+    - target: {fileID: 6121008869143410119, guid: 71adb644351b0834ab187baa698d5096, type: 3}
+      propertyPath: pauseMenu
+      value: 
+      objectReference: {fileID: 4066206044671431692}
+    - target: {fileID: 6821198856858705435, guid: 71adb644351b0834ab187baa698d5096, type: 3}
+      propertyPath: pauseMenu
+      value: 
+      objectReference: {fileID: 4066206044671431692}
+    - target: {fileID: 8064987101173682133, guid: 71adb644351b0834ab187baa698d5096, type: 3}
+      propertyPath: m_IsActive
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 8401368083898225136, guid: 71adb644351b0834ab187baa698d5096, type: 3}
       propertyPath: m_AnchorMax.y
       value: 0
@@ -342,3 +358,8 @@ PrefabInstance:
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 71adb644351b0834ab187baa698d5096, type: 3}
+--- !u!1 &4066206044671431692 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 8064987101173682133, guid: 71adb644351b0834ab187baa698d5096, type: 3}
+  m_PrefabInstance: {fileID: 4066206044671431691}
+  m_PrefabAsset: {fileID: 0}
