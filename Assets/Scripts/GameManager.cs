@@ -35,7 +35,7 @@ public class GameManager : MonoBehaviour, IDataPersistence
         loadingScene = GetComponent<LoadingScene>();
         CurrentScene = SceneManager.GetActiveScene().name;
         InitScene(CurrentScene);
-        RenderSettings.ambientLight = RenderSettings.ambientLight * brightness;
+        RenderSettings.ambientLight *= brightness;
         StartCoroutine(DisplayCurrentQuest());
     }
 

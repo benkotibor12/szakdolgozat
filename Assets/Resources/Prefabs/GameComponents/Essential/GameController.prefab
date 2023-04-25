@@ -12,6 +12,7 @@ GameObject:
   - component: {fileID: 4402961327306399426}
   - component: {fileID: 4402961327306399429}
   - component: {fileID: 4402961327306399431}
+  - component: {fileID: 6619624174973002809}
   m_Layer: 0
   m_Name: GameController
   m_TagString: Untagged
@@ -53,6 +54,7 @@ MonoBehaviour:
   mazeHeight: 0
   nextScene: RecursiveBacktracking
   currentScene: 
+  playerSpawnPoint: {fileID: 0}
 --- !u!114 &4402961327306399429
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -65,8 +67,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 6016b639ec9171e408c1e8d6ed415aa1, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  LoadingScreen: {fileID: 0}
-  LoadingBarFill: {fileID: 0}
+  loadingScreen: {fileID: 0}
+  loadingSlider: {fileID: 0}
+  delayTime: 5
 --- !u!114 &4402961327306399431
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -79,6 +82,19 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 249db3fcbdf54c34e8e2436f4267e9d4, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+--- !u!114 &6619624174973002809
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4402961327306399425}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 9368f68a74580884e8c0457643d150cd, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  pauseMenu: {fileID: 0}
 --- !u!1 &6171652231624278509
 GameObject:
   m_ObjectHideFlags: 0
@@ -123,6 +139,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: cef6d8a28025b8b4cb091fdb133c551c, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  fileName: 
 --- !u!1001 &999129055059466206
 PrefabInstance:
   m_ObjectHideFlags: 0

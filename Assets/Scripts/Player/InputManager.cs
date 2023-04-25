@@ -34,7 +34,7 @@ public class InputManager : MonoBehaviour
         if (!onFoot.Movement.IsPressed())
         {
             //playerAnimator.SetBool("isWalking", false);
-        }        
+        }
     }
 
     private void LateUpdate()
