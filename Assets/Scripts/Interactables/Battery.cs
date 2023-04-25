@@ -14,6 +14,7 @@ public class Battery : Interactable
     IEnumerator DisplayBatteryLootDialogue()
     {
         gameObject.GetComponent<MeshRenderer>().enabled = false;
+        gameObject.layer = 0;
         yield return DialogueSystemManager.Instance.DisplayDialogue(DialogueSystemManager.Instance.GetDialogue("LootBattery"), 0.1f, 0.1f, 5f);
         gameObject.SetActive(false);
     }

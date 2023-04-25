@@ -1,29 +1,29 @@
 {
   "story": [
     {
-      "scene": "First Scene",
-      "name": "<color=blue>Alpha</color>",
-      "dialogue": "first dialogue first dialogue first dialogue first dialogue first dialogue first dialogue \n sceond dialogue sceond dialogue over"
+      "scene": "Wilson",
+      "name": "<color=yellow>Kuldetes</color>",
+      "dialogue": "Talald meg a kapcsolokat, hogy kijuthass a labirintusbol!"
     },
     {
-      "scene": "First Scene",
-      "name": "<color=red>Beta</color>",
-      "dialogue": "second dialogue"
+      "scene": "Kruskal",
+      "name": "<color=yellow>Kuldetes</color>",
+      "dialogue": "Talald meg a kapcsolokat, hogy kijuthass a labirintusbol!"
     },
     {
-      "scene": "Second Scene",
-      "name": "Alpha",
-      "dialogue": "first dialogue"
+      "scene": "Prim",
+      "name": "<color=yellow>Kuldetes</color>",
+      "dialogue": "Talald meg a kapcsolokat, hogy kijuthass a labirintusbol!"
+    },
+    {
+      "scene": "RecursiveBacktracker",
+      "name": "<color=yellow>Kuldetes</color>",
+      "dialogue": "Talald meg a kapcsolokat, hogy kijuthass a labirintusbol!"
     },
     {
       "scene": "LootBattery",
       "name": "Loot",
-      "dialogue": "you have picked up a battery"
-    },
-    {
-      "scene": "Second Scene",
-      "name": "Beta",
-      "dialogue": "second dialogue"
+      "dialogue": "Felvettel egy elemet a zseblampadhoz!"
     }
   ]
 }

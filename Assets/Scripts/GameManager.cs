@@ -1,6 +1,7 @@
 using System.Collections.Generic;
 using UnityEngine.SceneManagement;
 using UnityEngine;
+using System.Collections;
 
 public class GameManager : MonoBehaviour, IDataPersistence
 {
@@ -35,7 +36,12 @@ public class GameManager : MonoBehaviour, IDataPersistence
         CurrentScene = SceneManager.GetActiveScene().name;
         InitScene(CurrentScene);
         RenderSettings.ambientLight = RenderSettings.ambientLight * brightness;
+        StartCoroutine(DisplayCurrentQuest());
+    }
 
+    IEnumerator DisplayCurrentQuest()
+    {
+        yield return DialogueSystemManager.Instance.DisplayDialogue(DialogueSystemManager.Instance.GetDialogue(currentScene), 0.1f, 0.1f, 5f, true);
     }
 
     public void LoadScene(string sceneName)
