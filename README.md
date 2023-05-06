@@ -8,4 +8,5 @@ A játék indításához először szükséges az alábbi zip fájl letöltése,
 https://drive.google.com/file/d/18RGBB8rX5_N-DrVEfHsi85iMUNxEmy7a/view?usp=sharing
 
 Majd a build mappában található MazeT.exe fájl futtatásával indítható el a program.
+
 Megjegyzés: előfordulhat, hogy a játék nem megfelelő felbontással indul el, ezt korrigálni lehet a beállítások, grafikai beállítások majd a felbontás módosításával.
